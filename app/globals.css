@@ -1,0 +1,75 @@
+@import "tailwindcss";
+@import url("../node_modules/bootstrap-icons/font/bootstrap-icons.min.css");
+@plugin "daisyui" {
+  themes: nord --default, abyss --prefersdark, cupcake, dracula;
+}
+
+.bg-prim {
+  background-color: #14305f;
+}
+
+.btn-info {
+  color: #ffffff;
+}
+
+.embla {
+  max-width: 100%;
+  margin: auto;
+  --slide-height: 19rem;
+  --slide-spacing: 1rem;
+  --slide-size: 50%;
+}
+.embla__viewport {
+  overflow: hidden;
+}
+.embla__container {
+  display: flex;
+  touch-action: pan-y pinch-zoom;
+  gap: 1rem;
+}
+.embla__slide {
+  transform: translate3d(0, 0, 0);
+  flex: 0 0 var(--slide-size);
+  min-width: 0;
+}
+.embla__selected-snap-display {
+  justify-self: flex-end;
+  align-self: center;
+  color: var(--text-low-contrast);
+  font-weight: 600;
+}
+
+.scrollHide {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.scrollHide::-webkit-scrollbar {
+  display: none;
+}
+
+/* NEW */
+
+.titleBarOntop {
+  border-radius: var(--radius-2xl);
+  background-color: rgba(38, 38, 38, 0.7);
+}
+
+.titleBarOnScroll {
+  border-radius: 0;
+  background-color: #262626;
+}
+
+.menuNormal {
+  width: 2rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: calc(infinity * 1px);
+}
+
+.menuActive {
+  background-color: var(--color-black);
+  color: var(--color-white);
+}
