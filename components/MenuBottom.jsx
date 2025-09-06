@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import * as Icon from "react-bootstrap-icons";
 
 const MenuBottom = () => {
   const path = usePathname();
@@ -21,9 +22,7 @@ const MenuBottom = () => {
         <div
           className={`menuNormal ${pathname == "/inves" ? "menuActive" : null}`}
         >
-          <i
-            className={pathname == "/inves" ? "bi bi-chat-dots" : "bi bi-chat"}
-          ></i>
+          {path == "/inves" ? <Icon.ChatDots /> : <Icon.Chat />}
         </div>
         <span className="dock-label mt-1">QNote</span>
       </Link>
@@ -33,23 +32,17 @@ const MenuBottom = () => {
             pathname == "/wallet" ? "menuActive" : null
           }`}
         >
-          <i
-            className={
-              pathname == "/wallet"
-                ? "bi bi-chat-square-text-fill"
-                : "bi bi-chat-square-text"
-            }
-          ></i>
+          {path == "/wallet" ? (
+            <Icon.ChatSquareTextFill />
+          ) : (
+            <Icon.ChatSquareText />
+          )}
         </div>
         <span className="dock-label mt-1">QTitle</span>
       </Link>
       <Link href={"/"}>
         <div className={`menuNormal ${pathname == "/" ? "menuActive" : null}`}>
-          <i
-            className={
-              pathname == "/" ? "bi bi-house-door-fill" : "bi bi-house-door"
-            }
-          ></i>
+          {path == "/" ? <Icon.HouseDoorFill /> : <Icon.HouseDoor />}
         </div>
         <span className="dock-label mt-1">Home</span>
       </Link>
@@ -59,13 +52,7 @@ const MenuBottom = () => {
             pathname == "/profile" ? "menuActive" : null
           }`}
         >
-          <i
-            className={
-              pathname == "/profile"
-                ? "bi bi-person-fill"
-                : "bi bi-person text-[18px]"
-            }
-          ></i>
+          {path == "/profile" ? <Icon.PersonFill /> : <Icon.Person />}
         </div>
         <span className="dock-label mt-1">โปรไฟล์</span>
       </Link>
@@ -75,7 +62,7 @@ const MenuBottom = () => {
             pathname == "/mylist" ? "menuActive" : null
           }`}
         >
-          <i className="bi bi-list"></i>
+          <Icon.List />
         </div>
         <span className="dock-label mt-1">Menu</span>
       </label>

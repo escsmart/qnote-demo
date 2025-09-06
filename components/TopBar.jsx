@@ -1,6 +1,7 @@
 "use client";
 import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
+import * as Icon from "react-bootstrap-icons";
 
 const TopBar = ({ title }) => {
   const path = usePathname();
@@ -38,16 +39,13 @@ const TopBar = ({ title }) => {
         <div className="flex items-center justify-between gap-3 text-white p-3 w-full">
           {path == "/" ? (
             <label htmlFor="my-drawer" className="drawer-button">
-              <i className="bi bi-list"></i>
+              <Icon.List />
             </label>
           ) : (
-            <i
-              className="bi bi-chevron-left"
-              onClick={() => navigate.back()}
-            ></i>
+            <Icon.ChevronLeft onClick={() => navigate.back()} />
           )}
           <div className="flex-1">{title}</div>
-          <i className="bi bi-bell-fill"></i>
+          <Icon.BellFill />
         </div>
       </div>
     </div>

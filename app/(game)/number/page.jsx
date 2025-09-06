@@ -1,8 +1,7 @@
 "use client";
-import MenuBottom from "@/components/MenuBottom";
-import Navbar from "@/components/Navbar";
 import Template from "@/components/Template";
 import { useEffect, useState } from "react";
+import * as Icon from "react-bootstrap-icons";
 
 const gameNumberPage = () => {
   const [gameData, setGameData] = useState({
@@ -187,16 +186,12 @@ const gameNumberPage = () => {
                 >
                   <div className="h-full flex items-center justify-center font-black">
                     {item.saler == true ? (
-                      <i
-                        className={`absolute top-2 left-2 text-2xl opacity-55 ${
-                          item.isBot == true
-                            ? "bi bi-robot"
-                            : item.playerId == playerId
-                            ? "bi bi-check-circle-fill"
-                            : "bi bi-person-circle"
-                        }`}
-                      ></i>
-                    ) : null}
+                      <Icon.Robot className="absolute top-2 left-2 text-2xl opacity-55" />
+                    ) : item.playerId == playerId ? (
+                      <Icon.CheckCircleFill className="absolute top-2 left-2 text-2xl opacity-55" />
+                    ) : (
+                      <Icon.PersonCircle className="absolute top-2 left-2 text-2xl opacity-55" />
+                    )}
                     {item.playerId == playerId ? (
                       <div
                         className="bg-error absolute bottom-0 right-0 w-12 h-12 text-white text-end pe-2 pt-5"
