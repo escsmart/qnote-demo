@@ -6,7 +6,7 @@ import MenuBottom from "@/components/MenuBottom";
 
 //เพิ่ม font google
 const prompt = Prompt({
-  weight: ["400", "600"],
+  weight: ["400", "600", "800", "900"],
   subsets: ["latin", "thai"],
 });
 
