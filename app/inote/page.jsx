@@ -1,7 +1,7 @@
 import Template from "@/components/Template";
 import Link from "next/link";
 
-const walletPage = () => {
+const inotePage = () => {
   return (
     <>
       <Template title={"โน๊ตหัวข้อ"}>
@@ -91,4 +91,4 @@ const walletPage = () => {
     </>
   );
 };
-export default walletPage;
+export default inotePage;

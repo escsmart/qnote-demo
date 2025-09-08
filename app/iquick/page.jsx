@@ -1,9 +1,9 @@
 import Template from "@/components/Template";
 
-const invesPage = () => {
+const iquickPage = () => {
   return (
     <>
-      <Template title={"การลงทุน"}>
+      <Template title={"การบันทึกที่ชอบ"}>
         <div className="min-h-screen w-full">
           <section className="min-h-screen px-4 py-18 mb-10">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam vel
@@ -35,4 +35,4 @@ const invesPage = () => {
     </>
   );
 };
-export default invesPage;
+export default iquickPage;

@@ -1,9 +1,9 @@
 import Template from "@/components/Template";
 
-const profilePage = () => {
+const videoPage = () => {
   return (
     <>
-      <Template title="โปรไฟล์ของฉัน">
+      <Template title="Video ของฉัน">
         <div className="min-h-screen w-full">
           <section className="min-h-screen px-4 py-18 mb-10">
             <div className="flex items-center justify-start gap-4">
@@ -69,4 +69,4 @@ const profilePage = () => {
     </>
   );
 };
-export default profilePage;
+export default videoPage;

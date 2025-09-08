@@ -18,27 +18,23 @@ const MenuBottom = () => {
 
   return (
     <div className="dock dock-lg border-t-0 pb-6 pt-3 h-22 bg-white">
-      <Link href={"/inves"}>
+      <Link href={"/inote"}>
         <div
-          className={`menuNormal ${pathname == "/inves" ? "menuActive" : null}`}
+          className={`menuNormal ${pathname == "/inote" ? "menuActive" : null}`}
         >
-          {path == "/inves" ? <Icon.ChatDots /> : <Icon.Chat />}
+          {path == "/inote" ? <Icon.ArchiveFill /> : <Icon.Archive />}
         </div>
         <span className="dock-label mt-1">QNote</span>
       </Link>
-      <Link href={"/wallet"}>
+      <Link href={"/iquick"}>
         <div
           className={`menuNormal ${
-            pathname == "/wallet" ? "menuActive" : null
+            pathname == "/iquick" ? "menuActive" : null
           }`}
         >
-          {path == "/wallet" ? (
-            <Icon.ChatSquareTextFill />
-          ) : (
-            <Icon.ChatSquareText />
-          )}
+          {path == "/iquick" ? <Icon.HeartFill /> : <Icon.Heart />}
         </div>
-        <span className="dock-label mt-1">QTitle</span>
+        <span className="dock-label mt-1">iQuick</span>
       </Link>
       <Link href={"/"}>
         <div className={`menuNormal ${pathname == "/" ? "menuActive" : null}`}>
@@ -46,15 +42,13 @@ const MenuBottom = () => {
         </div>
         <span className="dock-label mt-1">Home</span>
       </Link>
-      <Link href={"/profile"}>
+      <Link href={"/video"}>
         <div
-          className={`menuNormal ${
-            pathname == "/profile" ? "menuActive" : null
-          }`}
+          className={`menuNormal ${pathname == "/video" ? "menuActive" : null}`}
         >
-          {path == "/profile" ? <Icon.PersonFill /> : <Icon.Person />}
+          {path == "/video" ? <Icon.PlayCircleFill /> : <Icon.PlayCircle />}
         </div>
-        <span className="dock-label mt-1">โปรไฟล์</span>
+        <span className="dock-label mt-1">Video</span>
       </Link>
       <label htmlFor="my-drawer" className="relative drawer-button">
         <div
@@ -62,9 +56,9 @@ const MenuBottom = () => {
             pathname == "/mylist" ? "menuActive" : null
           }`}
         >
-          <Icon.List />
+          <Icon.ColumnsGap />
         </div>
-        <span className="dock-label mt-1">Menu</span>
+        <span className="dock-label mt-1">All</span>
       </label>
     </div>
   );

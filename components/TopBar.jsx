@@ -10,7 +10,7 @@ const TopBar = ({ title }) => {
   const [isVisible, setIsVisible] = useState(true);
 
   const onScroll = useCallback((event) => {
-    if (window.scrollY > 100) {
+    if (window.scrollY > 50) {
       setIsVisible(false);
     } else {
       setIsVisible(true);
@@ -32,11 +32,11 @@ const TopBar = ({ title }) => {
       }`}
     >
       <div
-        className={`card w-full inline-flex transition duration-200 ${
+        className={`card w-full inline-flex shadow-md transition duration-200 ${
           isVisible ? "titleBarOntop" : "titleBarOnScroll"
         }`}
       >
-        <div className="flex items-center justify-between gap-3 text-white p-3 w-full">
+        <div className="flex items-center justify-between gap-3 p-3 px-4 w-full">
           {path == "/" ? (
             <label htmlFor="my-drawer" className="drawer-button">
               <Icon.List />
