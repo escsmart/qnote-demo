@@ -4,7 +4,7 @@ import Link from "next/link";
 const inotePage = () => {
   return (
     <>
-      <Template title={"โน๊ตหัวข้อ"}>
+      <Template title={"i Note"}>
         <div className="min-h-screen w-full">
           <section className="min-h-screen px-4 py-18 mb-10">
             <div className="w-full">
