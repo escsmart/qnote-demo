@@ -70,7 +70,7 @@ const inotePage = () => {
   return (
     <>
       <Template title={"i Note"}>
-        <div className="min-h-screen w-full">
+        <div className="min-h-screen w-full bg-base-200">
           <section className="min-h-screen px-4 py-18 mb-10">
             <div className="w-full">
               <div className="card bg-amber-100 my-2 shadow-md">
