@@ -1,4 +1,5 @@
 import Template from "@/components/Template";
+import Link from "next/link";
 import * as Icon from "react-bootstrap-icons";
 
 export default function Home() {
@@ -35,7 +36,8 @@ export default function Home() {
                 </p>
               </div>
               <div className="w-full grid grid-cols-6 h-52 rounded-2xl overflow-hidden text-white">
-                <div
+                <Link
+                  href="/inote"
                   className="col-span-3 flex flex-col items-center justify-center h-full cursor-pointer text-white"
                   style={{
                     backgroundImage:
@@ -47,7 +49,7 @@ export default function Home() {
                 >
                   <i className="bi bi-arrow-up-right"></i>
                   <p>QNote</p>
-                </div>
+                </Link>
                 <div
                   className="col-span-3 flex flex-col items-center justify-center h-full cursor-pointer"
                   style={{

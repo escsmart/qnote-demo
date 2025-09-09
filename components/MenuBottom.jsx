@@ -34,7 +34,7 @@ const MenuBottom = () => {
         >
           {path == "/iquick" ? <Icon.HeartFill /> : <Icon.Heart />}
         </div>
-        <span className="dock-label mt-1">iQuick</span>
+        <span className="dock-label mt-1">QNote</span>
       </Link>
       <Link href={"/"}>
         <div className={`menuNormal ${pathname == "/" ? "menuActive" : null}`}>
