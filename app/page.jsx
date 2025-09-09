@@ -5,10 +5,10 @@ export default function Home() {
   return (
     <>
       <Template title="Quick Note">
-        <div className="min-h-screen w-full">
+        <div className="min-h-screen w-full bg-base-200">
           <section className="min-h-screen flex flex-col gap-6 w-full px-4 py-18 mb-10">
             <div
-              className="card bg-base-300 h-36 rounded-3xl"
+              className="card h-36 rounded-3xl mt-2"
               style={{
                 backgroundImage:
                   "linear-gradient(to right, #00000080, #0000ff80), url(https://www.psychologicalscience.org/redesign/wp-content/uploads/2013/03/PAFF_051217_mindfulnesstestscores-1024x585.jpg)",
@@ -34,22 +34,58 @@ export default function Home() {
                   Error, eius!
                 </p>
               </div>
-              <div className="w-full grid grid-cols-6 h-52 rounded-2xl overflow-hidden">
-                <div className="col-span-3 bg-info flex flex-col items-center justify-center h-full cursor-pointer text-white">
+              <div className="w-full grid grid-cols-6 h-52 rounded-2xl overflow-hidden text-white">
+                <div
+                  className="col-span-3 flex flex-col items-center justify-center h-full cursor-pointer text-white"
+                  style={{
+                    backgroundImage:
+                      "linear-gradient(to right, #00000080, #0000ff80), url('./bg/qnote-bg.jpg')",
+                    backgroundRepeat: "no-repeat",
+                    backgroundPosition: "bottom center",
+                    backgroundSize: "cover",
+                  }}
+                >
                   <i className="bi bi-arrow-up-right"></i>
-                  <p>จ่ายเงิน</p>
+                  <p>QNote</p>
                 </div>
-                <div className="col-span-3 bg-primary flex flex-col items-center justify-center h-full cursor-pointer">
+                <div
+                  className="col-span-3 flex flex-col items-center justify-center h-full cursor-pointer"
+                  style={{
+                    backgroundImage:
+                      "linear-gradient(to right, #FF000080, #0000ff80), url('./bg/video-bg.jpg')",
+                    backgroundRepeat: "no-repeat",
+                    backgroundPosition: "bottom center",
+                    backgroundSize: "cover",
+                  }}
+                >
                   <i className="bi bi-qr-code"></i>
-                  <p>รับเงิน</p>
+                  <p>iVideo</p>
                 </div>
-                <div className="col-span-3 bg-success flex flex-col items-center justify-center h-full cursor-pointer">
-                  <i className="bi bi-exclude"></i>
-                  <p>ชำระสินเชื่อ</p>
+                <div
+                  className="col-span-3 flex flex-col items-center justify-center h-full cursor-pointer text-white"
+                  style={{
+                    backgroundImage:
+                      "linear-gradient(to right, #FF000080, #0000ff80), url('./bg/inote-bg.jpg')",
+                    backgroundRepeat: "no-repeat",
+                    backgroundPosition: "bottom center",
+                    backgroundSize: "cover",
+                  }}
+                >
+                  <i className="bi bi-arrow-up-right"></i>
+                  <p>iNote</p>
                 </div>
-                <div className="col-span-3 bg-neutral-700 flex flex-col items-center justify-center h-full cursor-pointer text-white">
+                <div
+                  className="col-span-3 flex flex-col items-center justify-center h-full cursor-pointer text-white"
+                  style={{
+                    backgroundImage:
+                      "linear-gradient(to right, #00000080, #0000ff80), url('./bg/invester-bg.jpg')",
+                    backgroundRepeat: "no-repeat",
+                    backgroundPosition: "bottom center",
+                    backgroundSize: "cover",
+                  }}
+                >
                   <i className="bi bi-plus-lg"></i>
-                  <p>เพิ่มวงเงิน</p>
+                  <p>หุ้น QNote</p>
                 </div>
               </div>
             </div>
