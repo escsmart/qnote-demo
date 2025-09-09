@@ -1,9 +1,9 @@
 import Template from "@/components/Template";
 
-const iquickPage = () => {
+const ilinkPage = () => {
   return (
     <>
-      <Template title={"Quick Used"}>
+      <Template title={"URL Shorted"}>
         <div className="min-h-screen w-full">
           <section className="min-h-screen px-4 py-18 mb-10">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam vel
@@ -35,4 +35,4 @@ const iquickPage = () => {
     </>
   );
 };
-export default iquickPage;
+export default ilinkPage;

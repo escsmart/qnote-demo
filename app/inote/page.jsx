@@ -95,9 +95,8 @@ const inotePage = () => {
               </div>
             </div>
 
-            <div className="divider divider-start">รายการโน๊ต</div>
-
-            <div className="card bg-white h-[40vh] overflow-hidden shadow-md my-4 py-2">
+            <div className="card bg-white h-[40vh] overflow-hidden shadow-md my-4 px-2">
+              <div className="divider">รายการโน๊ต</div>
               <div className="overflow-y-auto">
                 <table className="table table-xs table-zebra">
                   <tbody>
@@ -137,9 +136,11 @@ const inotePage = () => {
                         <tr>
                           <td
                             colSpan={3}
-                            className="text-center text-neutral-600"
+                            className="text-center text-neutral-600 h-[30vh]"
                           >
-                            สร้างบันทึกอย่างรวดเร็ว
+                            <h2 className="text-sm">
+                              "สร้างบันทึก..ได้อย่างรวดเร็ว"
+                            </h2>
                           </td>
                         </tr>
                       )

@@ -41,20 +41,20 @@ export default function Home() {
                   className="col-span-3 flex flex-col items-center justify-center h-full cursor-pointer text-white"
                   style={{
                     backgroundImage:
-                      "linear-gradient(to right, #00000080, #0000ff80), url('./bg/qnote-bg.jpg')",
+                      "linear-gradient(to right, #00000080, #0000ff80), url('./bg/inote-bg.jpg')",
                     backgroundRepeat: "no-repeat",
                     backgroundPosition: "bottom center",
                     backgroundSize: "cover",
                   }}
                 >
                   <i className="bi bi-arrow-up-right"></i>
-                  <p>QNote</p>
+                  <p>iNote</p>
                 </Link>
                 <div
                   className="col-span-3 flex flex-col items-center justify-center h-full cursor-pointer"
                   style={{
                     backgroundImage:
-                      "linear-gradient(to right, #FF000080, #0000ff80), url('./bg/video-bg.jpg')",
+                      "linear-gradient(to right, #FF000080, #0000ff80), url('./bg/qnote-bg.jpg')",
                     backgroundRepeat: "no-repeat",
                     backgroundPosition: "bottom center",
                     backgroundSize: "cover",
@@ -63,19 +63,20 @@ export default function Home() {
                   <i className="bi bi-qr-code"></i>
                   <p>iVideo</p>
                 </div>
-                <div
+                <Link
+                  href={"/ilink"}
                   className="col-span-3 flex flex-col items-center justify-center h-full cursor-pointer text-white"
                   style={{
                     backgroundImage:
-                      "linear-gradient(to right, #FF000080, #0000ff80), url('./bg/inote-bg.jpg')",
+                      "linear-gradient(to right, #FF000080, #0000ff80), url(https://media.gettyimages.com/id/1433485090/video/dots-makes-global-world-map-global-wireframe-polygonal-lines.jpg?s=640x640&k=20&c=6TpfX8QHt9IPnF0s5HkwOaNoqcNbtYP99Ceh7-iR8MI=)",
                     backgroundRepeat: "no-repeat",
                     backgroundPosition: "bottom center",
                     backgroundSize: "cover",
                   }}
                 >
                   <i className="bi bi-arrow-up-right"></i>
-                  <p>iNote</p>
-                </div>
+                  <p>iLink</p>
+                </Link>
                 <div
                   className="col-span-3 flex flex-col items-center justify-center h-full cursor-pointer text-white"
                   style={{
@@ -87,7 +88,7 @@ export default function Home() {
                   }}
                 >
                   <i className="bi bi-plus-lg"></i>
-                  <p>หุ้น QNote</p>
+                  <p>Invester</p>
                 </div>
               </div>
             </div>

@@ -26,15 +26,17 @@ const MenuBottom = () => {
         </div>
         <span className="dock-label mt-1">QNote</span>
       </Link>
-      <Link href={"/iquick"}>
+      <Link href={"/ilink"}>
         <div
-          className={`menuNormal ${
-            pathname == "/iquick" ? "menuActive" : null
-          }`}
+          className={`menuNormal ${pathname == "/ilink" ? "menuActive" : null}`}
         >
-          {path == "/iquick" ? <Icon.HeartFill /> : <Icon.Heart />}
+          {path == "/ilink" ? (
+            <Icon.Link45deg className="text-xl" />
+          ) : (
+            <Icon.Link45deg className="text-xl" />
+          )}
         </div>
-        <span className="dock-label mt-1">QNote</span>
+        <span className="dock-label mt-1">iLink</span>
       </Link>
       <Link href={"/"}>
         <div className={`menuNormal ${pathname == "/" ? "menuActive" : null}`}>
