@@ -42,7 +42,29 @@ const inotePage = () => {
     const removeItem = todos.filter((todo) => {
       return todo.id !== id;
     });
-    setTodos(removeItem);
+    let results = [];
+    for (let i = 0; i < removeItem.length; i++) {
+      const data = removeItem[i];
+      const newData = {
+        id: i + 1,
+        text: data.text,
+        checked: data.checked,
+      };
+      results.push(newData);
+    }
+    setTodos(results);
+  };
+
+  const handleEdit = (item) => {
+    let newItem = {
+      id: item.id,
+      text: item.text,
+      checked: !item.checked,
+    };
+    const editItem = todos.map((items) => {
+      return items.id == item.id ? newItem : items;
+    });
+    setTodos(editItem);
   };
 
   return (
@@ -81,34 +103,38 @@ const inotePage = () => {
                   <tbody>
                     {isClient ? (
                       todos.length > 0 ? (
-                        todos.map((item, index) => (
-                          <tr key={index}>
-                            <th className="w-10">
-                              <label>
-                                <input
-                                  type="checkbox"
-                                  className="checkbox"
-                                  checked={item.checked ? "checked" : null}
-                                />
-                              </label>
-                            </th>
-                            <td>
-                              <div className="flex items-center gap-3">
-                                <div>
-                                  <div className="text-sm opacity-50">
-                                    {item.text}
+                        todos
+                          .slice(0)
+                          .reverse()
+                          .map((item, index) => (
+                            <tr key={index}>
+                              <th className="w-10">
+                                <label>
+                                  <input
+                                    onChange={(e) => handleEdit(item)}
+                                    type="checkbox"
+                                    className="checkbox"
+                                    checked={item.checked ? "checked" : ""}
+                                  />
+                                </label>
+                              </th>
+                              <td>
+                                <div className="flex items-center gap-3">
+                                  <div>
+                                    <div className="text-sm opacity-50">
+                                      {item.text}
+                                    </div>
                                   </div>
                                 </div>
-                              </div>
-                            </td>
-                            <th className="w-10">
-                              <Icon.Trash3
-                                onClick={() => handleRemove(item.id)}
-                                className="text-[1.4em]"
-                              />
-                            </th>
-                          </tr>
-                        ))
+                              </td>
+                              <th className="w-10">
+                                <Icon.Trash3
+                                  onClick={() => handleRemove(item.id)}
+                                  className="text-[1.4em]"
+                                />
+                              </th>
+                            </tr>
+                          ))
                       ) : (
                         <tr>
                           <td
