@@ -97,7 +97,7 @@ const inotePage = () => {
 
             <div className="divider divider-start">รายการโน๊ต</div>
 
-            <div className="card h-[40vh] overflow-hidden shadow-md my-4 p-2">
+            <div className="card bg-white h-[40vh] overflow-hidden shadow-md my-4 py-2">
               <div className="overflow-y-auto">
                 <table className="table table-xs table-zebra">
                   <tbody>
@@ -118,12 +118,10 @@ const inotePage = () => {
                                   />
                                 </label>
                               </th>
-                              <td>
+                              <td onClick={(e) => handleEdit(item)}>
                                 <div className="flex items-center gap-3">
-                                  <div>
-                                    <div className="text-sm opacity-50">
-                                      {item.text}
-                                    </div>
+                                  <div className="text-sm text-neutral-600">
+                                    {item.text}
                                   </div>
                                 </div>
                               </td>
