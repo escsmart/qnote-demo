@@ -6,7 +6,6 @@ import * as Icon from "react-bootstrap-icons";
 const TopBar = ({ title }) => {
   const path = usePathname();
   const navigate = useRouter();
-  const [scrollY, setScrollY] = useState(0);
   const [isVisible, setIsVisible] = useState(true);
 
   const onScroll = useCallback((event) => {
@@ -15,7 +14,6 @@ const TopBar = ({ title }) => {
     } else {
       setIsVisible(true);
     }
-    setScrollY(window.scrollY);
   }, []);
 
   useEffect(() => {
@@ -45,7 +43,7 @@ const TopBar = ({ title }) => {
             <Icon.ChevronLeft onClick={() => navigate.back()} />
           )}
           <div className="flex-1">{title}</div>
-          <Icon.BellFill />
+          <Icon.BellFill onClick={() => window.location.reload()} />
         </div>
       </div>
     </div>

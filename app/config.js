@@ -1,5 +1,5 @@
 const config = {
-  // apiServer: "http://localhost:5000/inote", // ip และ port server
+  // apiServer: "http://192.168.2.51:5000/inote", // ip และ port server
   apiServer: "https://api.allservice.in.th/inote",
   token: "inotetokensecret",
   rowPerPage: 17,

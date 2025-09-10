@@ -126,12 +126,12 @@ const inotePage = () => {
 
   return (
     <>
-      <Template title={"i Note"}>
+      <Template title={"Create Note"}>
         <div className="min-h-screen w-full bg-base-200">
           <section className="min-h-screen px-4 py-18 mb-10">
             <div className="w-full">
               <div
-                className="card my-2 shadow-md relative"
+                className="card my-2 h-32 shadow-md relative"
                 style={{
                   backgroundImage: "url('./bg/note-text-bg.jpg')",
                   backgroundRepeat: "no-repeat",
@@ -145,7 +145,7 @@ const inotePage = () => {
                   name="todo"
                   id="noteText"
                   rows="4"
-                  className="py-2 px-8 focus:outline-0"
+                  className="py-4 px-8 focus:outline-0"
                   placeholder="Enter Note heer.."
                 ></textarea>
                 <button
