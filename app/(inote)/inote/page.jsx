@@ -8,6 +8,7 @@ import * as Icon from "react-bootstrap-icons";
 import Swal from "sweetalert2";
 
 const inotePage = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const [notes, setNotes] = useState([]);
 
   const fetchData = async () => {
@@ -16,9 +17,13 @@ const inotePage = () => {
     });
   };
 
+  // Scrool To Refresh
   const onScroll = useCallback((event) => {
     if (window.scrollY < -50) {
       fetchData();
+      setIsLoading(true);
+    } else {
+      setIsLoading(false);
     }
   }, []);
 
@@ -34,7 +39,14 @@ const inotePage = () => {
     <>
       <Template title={"i Note"}>
         <div className="min-h-screen w-full bg-base-200">
-          <section className="min-h-screen px-4 py-18 mb-10">
+          <div className={`h-8 flex items-center justify-center`}>
+            <span
+              className={`loading loading-xl loading-spinner text-info ${
+                isLoading ? "block" : "hidden"
+              }`}
+            ></span>
+          </div>
+          <section className="min-h-screen px-4 pt-10 pb-18 mb-10">
             <div className="w-full">
               <Link
                 href={"/inote-create"}

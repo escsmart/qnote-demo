@@ -2,7 +2,7 @@
 import config from "@/app/config";
 import Template from "@/components/Template";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import * as Icon from "react-bootstrap-icons";
 import Swal from "sweetalert2";
 
