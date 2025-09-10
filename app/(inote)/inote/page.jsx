@@ -1,10 +1,11 @@
 "use client";
+import config from "@/app/config";
 import Template from "@/components/Template";
 import axios from "axios";
 // import Link from "next/link";
 import { useEffect, useState } from "react";
 import * as Icon from "react-bootstrap-icons";
-import config from "../config";
+import Swal from "sweetalert2";
 
 const inotePage = () => {
   const [isClient, setIsClient] = useState(false);
@@ -107,6 +108,23 @@ const inotePage = () => {
       });
   };
 
+  const handleComfirm = (type, item) => {
+    if (type == "remove") {
+      Swal.fire({
+        text: `ลบรายการ ${item.text} ?`,
+        icon: "question",
+        showCancelButton: true,
+        cancelButtonText: "NO",
+        showConfirmButton: true,
+        confirmButtonText: "YES",
+      }).then((res) => {
+        if (res.isConfirmed) {
+          handleRemove(item.id);
+        }
+      });
+    }
+  };
+
   return (
     <>
       <Template title={"i Note"}>
@@ -187,7 +205,7 @@ const inotePage = () => {
                               </td>
                               <th className="w-10">
                                 <Icon.Trash3
-                                  onClick={() => handleRemove(item.id)}
+                                  onClick={() => handleComfirm("remove", item)}
                                   className="text-[1.4em]"
                                 />
                               </th>

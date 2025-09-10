@@ -37,7 +37,7 @@ export default function Home() {
               </div>
               <div className="w-full grid grid-cols-6 h-52 rounded-2xl overflow-hidden text-white">
                 <Link
-                  href="/inote"
+                  href="/inote-create"
                   className="col-span-3 flex flex-col items-center justify-center h-full cursor-pointer text-white"
                   style={{
                     backgroundImage:
