@@ -1,6 +1,7 @@
 const config = {
-  apiServer: "http://localhost:5000", // ip และ port server
-  token: "controlsofttokensecret",
+  // apiServer: "http://localhost:5000/inote", // ip และ port server
+  apiServer: "https://api.allservice.in.th/inote",
+  token: "inotetokensecret",
   rowPerPage: 17,
   headers: () => {
     return {

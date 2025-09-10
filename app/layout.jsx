@@ -22,6 +22,12 @@ export const metadata = {
   keywords: "shortlink, sharelink",
 };
 
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  userScalable: false,
+};
+
 // set layout และ export เพื่อใช้งาน
 export default function RootLayout({ children }) {
   return (

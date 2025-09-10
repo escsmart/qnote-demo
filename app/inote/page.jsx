@@ -1,8 +1,10 @@
 "use client";
 import Template from "@/components/Template";
+import axios from "axios";
 // import Link from "next/link";
 import { useEffect, useState } from "react";
 import * as Icon from "react-bootstrap-icons";
+import config from "../config";
 
 const inotePage = () => {
   const [isClient, setIsClient] = useState(false);
@@ -89,7 +91,20 @@ const inotePage = () => {
       title: titleNote,
       data: arr_data,
     };
-    console.log(payload);
+    await axios
+      .post(config.apiServer + "/inote/create", payload)
+      .then((res) => {
+        if (res.data.message === "success") {
+          let updateTodos = [];
+          for (let i = 0; i < todos.length; i++) {
+            if (todos[i].checked == false) {
+              updateTodos.push(todos[i]);
+            }
+          }
+          setTodos(updateTodos);
+          setTitleNote("");
+        }
+      });
   };
 
   return (
