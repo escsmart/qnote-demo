@@ -6,7 +6,7 @@ import { useCallback, useEffect, useState } from "react";
 import * as Icon from "react-bootstrap-icons";
 import Swal from "sweetalert2";
 
-const inotePage = () => {
+const createNotePage = () => {
   const [btnDel, setBtnDel] = useState(false);
   const [isClient, setIsClient] = useState(false);
   const [cntCheck, setCntCheck] = useState(0);
@@ -36,7 +36,7 @@ const inotePage = () => {
       elm.focus();
     }
     //set btndel
-    setBtnDel(todo.length > 0 ? true : false);
+    setBtnDel(todo.length > 1 ? true : false);
   }, [todo]);
 
   // TODOS
@@ -68,7 +68,7 @@ const inotePage = () => {
   }, [todos]);
 
   const handleTodoSubmit = () => {
-    if (todo !== "") {
+    if (todo.trim() !== "") {
       setTodos([
         ...todos,
         {
@@ -77,6 +77,8 @@ const inotePage = () => {
           checked: false,
         },
       ]);
+    } else {
+      alert("กรุณาป้อนข้อความ");
     }
     setTodo("");
   };
@@ -157,6 +159,16 @@ const inotePage = () => {
     }
   };
 
+  const changeHandler = (event) => {
+    let { value } = event.target;
+    if (event.key == "Enter") {
+      handleTodoSubmit();
+      setTimeout(() => {
+        setTodo("");
+      }, 100);
+    }
+  };
+
   return (
     <>
       <Template title={"Create Note"}>
@@ -180,8 +192,10 @@ const inotePage = () => {
                   rows="4"
                   className="py-4 px-8 focus:outline-0"
                   placeholder="Enter Note heer.."
+                  onKeyDown={changeHandler}
                 ></textarea>
                 <button
+                  id="btnClearForm"
                   onClick={() => {
                     setTodo("");
                     document.getElementById("noteText").focus();
@@ -303,4 +317,4 @@ const inotePage = () => {
     </>
   );
 };
-export default inotePage;
+export default createNotePage;

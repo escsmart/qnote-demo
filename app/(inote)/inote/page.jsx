@@ -2,12 +2,15 @@
 import config from "@/app/config";
 import Template from "@/components/Template";
 import axios from "axios";
+import moment from "moment";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import * as Icon from "react-bootstrap-icons";
 import Swal from "sweetalert2";
 
 const inotePage = () => {
+  const router = useRouter();
   const [loadSuccess, setLoadSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [notes, setNotes] = useState([]);
@@ -78,18 +81,26 @@ const inotePage = () => {
                   {loadSuccess ? (
                     notes.length > 0 ? (
                       notes.map((item, index) => (
-                        <tr key={index}>
+                        <tr
+                          key={index}
+                          onClick={() => router.push("/inote/" + item.id)}
+                        >
                           <td>{item.title}</td>
-                          <td className="text-center">
-                            <button className="btn btn-xs btn-circle">
-                              <Icon.EyeFill />
-                            </button>
+                          <td className="text-neutral-400 text-xs">
+                            {moment(item.createdAt).format("DD/MM/YYYY")}
                           </td>
                         </tr>
                       ))
                     ) : (
                       <tr>
-                        <td colSpan={2}>ไม่พบข้อมูล สร้างโน๊ตเลย</td>
+                        <td colSpan={2} className="text-center p-4">
+                          <div className="inline-block">
+                            <Icon.InfoCircle className="text-2xl text-neutral-600" />
+                          </div>
+                          <p className="text-neutral-500">
+                            ไม่พบข้อมูล สร้างโน๊ตเลย
+                          </p>
+                        </td>
                       </tr>
                     )
                   ) : (
