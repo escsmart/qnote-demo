@@ -210,20 +210,27 @@ const createNotePage = () => {
               <div className="w-full flex my-4">
                 <button
                   onClick={handleTodoSubmit}
-                  className="btn rounded-2xl btn-success flex-1 text-white"
+                  className="btn rounded-2xl btn-info flex-1 text-white"
                 >
                   บันทึกข้อความ
                 </button>
               </div>
             </div>
 
-            <div className="card bg-white h-[40vh] overflow-hidden shadow-md my-4 px-2">
-              <div className="divider">
+            <div className="card min-h-[10vh] max-h-[50vh] overflow-hidden my-4">
+              {/* <div className="divider">
                 รายการโน๊ต
                 <Icon.PenFill className="text-5xl" />
-              </div>
+              </div> */}
               <div className="overflow-y-auto">
-                <table className="table table-xs table-zebra">
+                <table className="table bg-white rounded-box shadow-md">
+                  <thead className="bg-black">
+                    <tr>
+                      <th colSpan={3} className="text-white">
+                        รายการโน๊ต
+                      </th>
+                    </tr>
+                  </thead>
                   <tbody>
                     {isClient ? (
                       todos.length > 0 ? (
@@ -232,7 +239,7 @@ const createNotePage = () => {
                           .reverse()
                           .map((item, index) => (
                             <tr key={index}>
-                              <th className="w-10">
+                              <td className="w-10 px-3">
                                 <label>
                                   <input
                                     onChange={(e) => handleEdit(item)}
@@ -241,20 +248,21 @@ const createNotePage = () => {
                                     checked={item.checked ? "checked" : ""}
                                   />
                                 </label>
-                              </th>
-                              <td onClick={(e) => handleEdit(item)}>
-                                <div className="flex items-center gap-3">
-                                  <div className="text-sm text-neutral-600">
-                                    {item.text}
-                                  </div>
-                                </div>
                               </td>
-                              <th className="w-10">
-                                <Icon.Trash3
-                                  onClick={() => handleComfirm("remove", item)}
-                                  className="text-[1.4em]"
-                                />
-                              </th>
+                              <td
+                                onClick={(e) => handleEdit(item)}
+                                className="p-0"
+                              >
+                                {item.text}
+                              </td>
+                              <td className="w-12 p-0 text-center">
+                                <button
+                                  onClick={(e) => handleComfirm("remove", item)}
+                                  className="btn btn-circle btn-xs"
+                                >
+                                  <Icon.Trash3 />
+                                </button>
+                              </td>
                             </tr>
                           ))
                       ) : (
@@ -275,7 +283,7 @@ const createNotePage = () => {
               </div>
             </div>
             <button
-              className={`btn btn-lg btn-block btn-success text-white ${
+              className={`btn btn-lg btn-block btn-info text-white ${
                 cntCheck > 0 ? "" : "btn-disabled"
               }`}
               onClick={() => document.getElementById("my_modal_2").showModal()}

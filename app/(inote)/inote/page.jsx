@@ -71,26 +71,30 @@ const inotePage = () => {
 
             <div className="overflow-x-auto rounded-box border border-base-content/5 bg-white mt-4">
               <table className="table">
-                <thead>
+                <thead className="bg-black">
                   <tr>
-                    <th>รายการโน๊ต</th>
-                    <th className="w-10"></th>
+                    <th colSpan={2} className="text-white">
+                      รายการโน๊ต
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
                   {loadSuccess ? (
                     notes.length > 0 ? (
-                      notes.map((item, index) => (
-                        <tr
-                          key={index}
-                          onClick={() => router.push("/inote/" + item.id)}
-                        >
-                          <td>{item.title}</td>
-                          <td className="text-neutral-400 text-xs">
-                            {moment(item.createdAt).format("DD/MM/YYYY")}
-                          </td>
-                        </tr>
-                      ))
+                      notes
+                        .slice(0)
+                        .reverse()
+                        .map((item, index) => (
+                          <tr
+                            key={index}
+                            onClick={() => router.push("/inote/" + item.id)}
+                          >
+                            <td>{item.title}</td>
+                            <td className="text-neutral-400 text-xs w-10">
+                              {moment(item.createdAt).format("DD/MM/YYYY")}
+                            </td>
+                          </tr>
+                        ))
                     ) : (
                       <tr>
                         <td colSpan={2} className="text-center p-4">
