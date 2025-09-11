@@ -8,12 +8,16 @@ import * as Icon from "react-bootstrap-icons";
 import Swal from "sweetalert2";
 
 const inotePage = () => {
+  const [loadSuccess, setLoadSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [notes, setNotes] = useState([]);
 
   const fetchData = async () => {
     await axios.get(config.apiServer + "/inote/list").then((res) => {
-      setNotes(res.data.data);
+      if (res.data.message === "success") {
+        setNotes(res.data.data);
+        setLoadSuccess(true);
+      }
     });
   };
 
@@ -71,20 +75,29 @@ const inotePage = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {notes.length > 0 ? (
-                    notes.map((item, index) => (
-                      <tr key={index}>
-                        <td>{item.title}</td>
-                        <td className="text-center">
-                          <button className="btn btn-xs btn-circle">
-                            <Icon.EyeFill />
-                          </button>
-                        </td>
+                  {loadSuccess ? (
+                    notes.length > 0 ? (
+                      notes.map((item, index) => (
+                        <tr key={index}>
+                          <td>{item.title}</td>
+                          <td className="text-center">
+                            <button className="btn btn-xs btn-circle">
+                              <Icon.EyeFill />
+                            </button>
+                          </td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan={2}>ไม่พบข้อมูล สร้างโน๊ตเลย</td>
                       </tr>
-                    ))
+                    )
                   ) : (
                     <tr>
-                      <td colSpan={2}>ไม่พบข้อมูล สร้างโน๊ตเลย</td>
+                      <td colSpan={2} className="text-center p-4">
+                        <span className="loading loading-spinner text-info"></span>
+                        <p className="text-neutral-500 mt-2">Loading</p>
+                      </td>
                     </tr>
                   )}
                 </tbody>

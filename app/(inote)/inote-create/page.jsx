@@ -7,10 +7,39 @@ import * as Icon from "react-bootstrap-icons";
 import Swal from "sweetalert2";
 
 const inotePage = () => {
+  const [btnDel, setBtnDel] = useState(false);
   const [isClient, setIsClient] = useState(false);
   const [cntCheck, setCntCheck] = useState(0);
   const [titleNote, setTitleNote] = useState("");
-  const [todo, setTodo] = useState("");
+
+  // TODO
+  const [todo, setTodo] = useState(() => {
+    let response = "";
+    if (typeof window !== "undefined") {
+      const todoText = localStorage.getItem("todo");
+      if (todoText != null || todoText != undefined) {
+        response = todoText;
+      }
+    }
+    return response;
+  });
+
+  useEffect(() => {
+    localStorage.setItem("todo", todo);
+    // setfocus
+    const elm = document.getElementById("noteText");
+    const tLength = todo.length;
+    if (tLength > 0) {
+      elm.focus();
+      elm.setSelectionRange(tLength, tLength);
+    } else {
+      elm.focus();
+    }
+    //set btndel
+    setBtnDel(todo.length > 0 ? true : false);
+  }, [todo]);
+
+  // TODOS
   const [todos, setTodos] = useState(() => {
     let result = [];
     if (typeof window !== "undefined") {
@@ -22,8 +51,12 @@ const inotePage = () => {
     return result;
   });
 
+  // Global
   useEffect(() => {
     setIsClient(true);
+  }, []);
+
+  useEffect(() => {
     localStorage.setItem("todos", JSON.stringify(todos));
     let countChecked = 0;
     for (let i = 0; i < todos.length; i++) {
@@ -154,7 +187,7 @@ const inotePage = () => {
                     document.getElementById("noteText").focus();
                   }}
                   className={`btn btn-sm btn-circle btn-error absolute -top-2 -right-2 text-white ${
-                    todo == "" ? "hidden" : ""
+                    btnDel ? "" : "hidden"
                   }`}
                 >
                   <Icon.XLg />
