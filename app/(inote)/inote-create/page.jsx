@@ -12,6 +12,7 @@ const createNotePage = () => {
   const [isClient, setIsClient] = useState(false);
   const [cntCheck, setCntCheck] = useState(0);
   const [titleNote, setTitleNote] = useState("");
+  const [btnCreateNote, setBtnCreateNote] = useState(false);
 
   // TODO
   const [todo, setTodo] = useState(() => {
@@ -157,6 +158,12 @@ const createNotePage = () => {
           handleRemove(item.id);
         }
       });
+    } else if (type == "createNote") {
+      if (titleNote == "") {
+        alert("กรุณาป้อนหัวข้อโน๊ต");
+      }
+      return console.log("first");
+      handleSaveNote();
     }
   };
 
@@ -289,21 +296,6 @@ const createNotePage = () => {
         </div>
       </Template>
 
-      {/* <div className="bg-info fixed">
-        <div className="w-96 bg-amber-400">
-          <div className="bg-error">
-            <input
-              type="text"
-              name=""
-              id=""
-              className="input"
-              placeholder="พิมพ์ข้อความ"
-            />
-          </div>
-          <div>send</div>
-        </div>
-      </div> */}
-
       {/* //Modal Enter Title Note */}
       <dialog
         id="modalCreateNote"
@@ -314,19 +306,28 @@ const createNotePage = () => {
           <p className="py-4">
             <input
               value={titleNote}
-              onChange={(e) => setTitleNote(e.target.value)}
+              onChange={(e) => {
+                setTitleNote(e.target.value);
+                if (e.target.value.length > 4) {
+                  setBtnCreateNote(true);
+                } else {
+                  setBtnCreateNote(false);
+                }
+              }}
               type="text"
-              className="input w-full"
+              className="input w-full focus:outline-0"
               placeholder="Enter Note Title"
             />
           </p>
           <div className="w-full mt-4">
             <form method="dialog">
               <button
-                onClick={handleSaveNote}
-                className="btn btn-block btn-success text-white"
+                onClick={() => handleComfirm("createNote", "")}
+                className={`btn btn-block ${
+                  btnCreateNote ? null : "btn-disabled"
+                } btn-success text-white`}
               >
-                ยืนยัน
+                บันทึก
               </button>
             </form>
           </div>
