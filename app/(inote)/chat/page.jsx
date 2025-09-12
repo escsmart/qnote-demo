@@ -2,12 +2,13 @@
 import config from "@/app/config";
 import Template from "@/components/Template";
 import axios from "axios";
-import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import * as Icon from "react-bootstrap-icons";
 import Swal from "sweetalert2";
 
 const createNotePage = () => {
+  const boxRef = useRef(null);
+  const [height, setHeight] = useState(0);
   const [btnDel, setBtnDel] = useState(false);
   const [isClient, setIsClient] = useState(false);
   const [cntCheck, setCntCheck] = useState(0);
@@ -66,6 +67,7 @@ const createNotePage = () => {
   // Global
   useEffect(() => {
     setIsClient(true);
+    setHeight(boxRef.current.getBoundingClientRect().height);
   }, []);
 
   const handleTodoSubmit = () => {
@@ -163,9 +165,8 @@ const createNotePage = () => {
   const changeHandler = (event) => {
     let { value } = event.target;
     if (event.key == "Enter") {
-      document.getElementById("linkBt").click();
       handleTodoSubmit();
-      // setTodo("");
+      setTodo("");
     }
   };
 
@@ -180,9 +181,9 @@ const createNotePage = () => {
   return (
     <>
       <Template title={"Create Note"}>
-        <div className="min-h-screen w-full bg-white">
+        <div className="h-[100vh] w-full bg-base-200" ref={boxRef}>
           <section className="min-h-screen px-4 py-18">
-            <div className="flex items-center justify-between mt-2">
+            <div className="flex items-center justify-between">
               <div className="join">
                 <button
                   className={`btn btn-info join-item ${
@@ -209,41 +210,53 @@ const createNotePage = () => {
                 สร้างโน๊ต <Icon.ArchiveFill />
               </button>
             </div>
-            <div className={`h-[72vh] flex flex-col justify-end mt-4`}>
-              <div className={`card overflow-hidden rounded-none`}>
+            <div className={`h-[73vh]`}>
+              <div className={`card h-full overflow-hidden my-4`}>
                 <div className="overflow-y-auto">
-                  <table className="table bg-white shadow-md rounded-none">
+                  <table className="table bg-white rounded-box shadow-md">
+                    <thead className="bg-black">
+                      <tr>
+                        <th colSpan={3} className="text-white">
+                          รายการโน๊ต {height}
+                        </th>
+                      </tr>
+                    </thead>
                     <tbody>
                       {isClient ? (
                         todos.length > 0 ? (
-                          todos.map((item, index) => (
-                            <tr key={index}>
-                              <td className="w-10 px-3">
-                                <label>
-                                  <input
-                                    onChange={(e) => handleEdit(item)}
-                                    type="checkbox"
-                                    className="checkbox"
-                                    checked={item.checked ? "checked" : ""}
-                                  />
-                                </label>
-                              </td>
-                              <td
-                                onClick={(e) => handleEdit(item)}
-                                className="p-0"
-                              >
-                                {item.text}
-                              </td>
-                              <td className="w-12 p-0 text-center">
-                                <button
-                                  onClick={(e) => handleComfirm("remove", item)}
-                                  className="btn btn-circle btn-xs"
+                          todos
+                            .slice(0)
+                            .reverse()
+                            .map((item, index) => (
+                              <tr key={index}>
+                                <td className="w-10 px-3">
+                                  <label>
+                                    <input
+                                      onChange={(e) => handleEdit(item)}
+                                      type="checkbox"
+                                      className="checkbox"
+                                      checked={item.checked ? "checked" : ""}
+                                    />
+                                  </label>
+                                </td>
+                                <td
+                                  onClick={(e) => handleEdit(item)}
+                                  className="p-0"
                                 >
-                                  <Icon.Trash3 />
-                                </button>
-                              </td>
-                            </tr>
-                          ))
+                                  {item.text}
+                                </td>
+                                <td className="w-12 p-0 text-center">
+                                  <button
+                                    onClick={(e) =>
+                                      handleComfirm("remove", item)
+                                    }
+                                    className="btn btn-circle btn-xs"
+                                  >
+                                    <Icon.Trash3 />
+                                  </button>
+                                </td>
+                              </tr>
+                            ))
                         ) : (
                           <tr>
                             <td
@@ -257,9 +270,6 @@ const createNotePage = () => {
                           </tr>
                         )
                       ) : null}
-                      <tr>
-                        <td id="bt" className="p-0"></td>
-                      </tr>
                     </tbody>
                   </table>
                 </div>
@@ -279,12 +289,12 @@ const createNotePage = () => {
                 onKeyDown={changeHandler}
               />
             </div>
-            <Link href={"#bt"} id="linkBt">
+            <div>
               <Icon.SendFill
                 onClick={handleTodoSubmit}
                 className="rotate-45 text-2xl text-blue-600"
               />
-            </Link>
+            </div>
           </footer>
         </div>
       </Template>

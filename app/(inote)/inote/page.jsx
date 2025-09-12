@@ -1,5 +1,6 @@
 "use client";
 import config from "@/app/config";
+import MenuBottom from "@/components/MenuBottom";
 import Template from "@/components/Template";
 import axios from "axios";
 import moment from "moment";
@@ -121,6 +122,7 @@ const inotePage = () => {
           </section>
         </div>
       </Template>
+      <MenuBottom />
     </>
   );
 };
