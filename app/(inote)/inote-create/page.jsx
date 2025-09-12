@@ -209,7 +209,7 @@ const createNotePage = () => {
                 สร้างโน๊ต <Icon.ArchiveFill />
               </button>
             </div>
-            <div className={`h-[72vh] flex flex-col justify-end mt-4`}>
+            <div className={`h-[72vh] flex flex-col justify-start mt-4`}>
               <div className={`card overflow-hidden rounded-none`}>
                 <div className="overflow-y-auto">
                   <table className="table bg-white shadow-md rounded-none">
