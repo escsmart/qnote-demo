@@ -1,3 +1,4 @@
+import MenuBottom from "@/components/MenuBottom";
 import Template from "@/components/Template";
 import Link from "next/link";
 import * as Icon from "react-bootstrap-icons";
@@ -7,7 +8,7 @@ export default function Home() {
     <>
       <Template title="Quick Note">
         <div className="min-h-screen w-full bg-base-200">
-          <section className="min-h-screen flex flex-col gap-6 w-full px-4 py-18 mb-10">
+          <section className="min-h-screen flex flex-col gap-6 w-full px-4 pt-18 pb-28">
             <div
               className="card h-36 rounded-3xl mt-2"
               style={{
@@ -120,6 +121,7 @@ export default function Home() {
           </section>
         </div>
       </Template>
+      <MenuBottom />
     </>
   );
 }

@@ -16,7 +16,16 @@ const TopBar = ({ title }) => {
     }
   }, []);
 
+  // const checkOntop = useCallback((event) => {
+  //   if (window.scrollY !== 0) {
+  //     alert(window.scrollY);
+  //     window.scrollTo({ top: 0, behavior: "smooth" });
+  //   }
+  // }, []);
+
   useEffect(() => {
+    // window.scrollTo({ top: 0, behavior: "smooth" });
+    // checkOntop();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => {
       window.removeEventListener("scroll", onScroll, { passive: true });

@@ -12,6 +12,7 @@ const viewNotePage = () => {
   const router = useRouter();
   const { viewId } = useParams();
   const [isLoading, setIsLoading] = useState(false);
+  const [btnComplete, setBtnComplete] = useState(true);
   const [loadSuccess, setLoadSuccess] = useState(false);
   const [noteTitle, setNoteTitle] = useState("รายการ");
   const [noteList, setNoteList] = useState([]);
@@ -19,25 +20,32 @@ const viewNotePage = () => {
 
   // FetchData
   const fetchData = async () => {
-    await axios.get(config.apiServer + "/inote/view/" + viewId).then((res) => {
-      if (res.data.message === "success") {
-        setCountList(res.data.count);
-        setLoadSuccess(true);
-        setNoteTitle(res.data.title);
-        let dataList = [];
-        let dataComplete = [];
-        for (let i = 0; i < res.data.data.length; i++) {
-          const item = res.data.data[i];
-          if (item.isComplete == true) {
-            dataComplete.unshift(item);
-          } else {
-            dataList.unshift(item);
+    await axios
+      .get(config.apiServer + "/inote/view-list/" + viewId)
+      .then((res) => {
+        if (res.data.message === "success") {
+          setCountList(res.data.count);
+          setLoadSuccess(true);
+          setNoteTitle(res.data.title);
+          let dataList = [];
+          let dataComplete = [];
+          for (let i = 0; i < res.data.data.length; i++) {
+            const item = res.data.data[i];
+            if (item.isComplete == true) {
+              dataComplete.unshift(item);
+            } else {
+              dataList.unshift(item);
+            }
           }
+          if (res.data.count == dataComplete.length) {
+            setBtnComplete(false);
+          } else if (res.data.count !== dataComplete.length) {
+            setBtnComplete(true);
+          }
+          const items = dataList.concat(dataComplete);
+          setNoteList(items);
         }
-        const items = dataList.concat(dataComplete);
-        setNoteList(items);
-      }
-    });
+      });
   };
 
   // Remove
@@ -52,6 +60,17 @@ const viewNotePage = () => {
         if (res.data.message === "success") {
           fetchData();
         } else if (res.data.message === "removeall") {
+          router.push("/inote");
+        }
+      });
+  };
+
+  // Delete This Note ALL
+  const handleRemoveNote = async () => {
+    await axios
+      .delete(config.apiServer + "/inote/delete-all/" + viewId)
+      .then((res) => {
+        if (res.data.message === "success") {
           router.push("/inote");
         }
       });
@@ -74,8 +93,19 @@ const viewNotePage = () => {
           handleRemove(item.id);
         }
       });
-    } else if (type == "complete") {
-      // alert("complete");
+    } else if (type == "delete") {
+      Swal.fire({
+        text: `ลบโน๊ต ${item} ?`,
+        icon: "question",
+        showCancelButton: true,
+        cancelButtonText: "NO",
+        showConfirmButton: true,
+        confirmButtonText: "YES",
+      }).then((res) => {
+        if (res.isConfirmed) {
+          handleRemoveNote();
+        }
+      });
     }
   };
 
@@ -97,17 +127,27 @@ const viewNotePage = () => {
   };
 
   // setcomplete
-  const handleComplete = async (item) => {
-    const payload = {
-      isComplete: !item.isComplete,
-    };
-    await axios
-      .put(config.apiServer + "/inote/complete-list/" + item.id, payload)
-      .then((res) => {
-        if (res.data.message === "success") {
-          fetchData();
-        }
-      });
+  const handleComplete = async (type, item) => {
+    if (type == "single") {
+      const payload = {
+        isComplete: !item.isComplete,
+      };
+      await axios
+        .put(config.apiServer + "/inote/complete-list/" + item.id, payload)
+        .then((res) => {
+          if (res.data.message === "success") {
+            fetchData();
+          }
+        });
+    } else if (type == "all") {
+      await axios
+        .put(config.apiServer + "/inote/completeall-list/" + viewId)
+        .then((res) => {
+          if (res.data.message === "success") {
+            fetchData();
+          }
+        });
+    }
   };
 
   // Scrool To Refresh
@@ -139,7 +179,45 @@ const viewNotePage = () => {
             ></span>
           </div>
           <section className="min-h-screen px-4 pt-10 pb-18 mb-10">
-            <div className="card max-h-[70vh] overflow-hidden">
+            <div className="flex items-center justify-between">
+              <div className="join">
+                <button
+                  onClick={() => handleComplete("all", "")}
+                  className={`btn btn-info join-item ${
+                    btnComplete ? null : "btn-disabled"
+                  }`}
+                >
+                  เสร็จทั้งหมด
+                </button>
+                <button className="btn btn-info join-item">
+                  <Icon.Star />
+                </button>
+                <button className="btn btn-info join-item">
+                  <Icon.Share />
+                </button>
+              </div>
+              <div className="dropdown dropdown-end">
+                <div
+                  tabIndex={0}
+                  role="button"
+                  className="btn btn-info btn-circle m-1"
+                >
+                  <Icon.GearFill />
+                </div>
+                <ul
+                  tabIndex={0}
+                  className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm"
+                >
+                  <li>
+                    <a>แก้ไขชื่อหัวข้อ</a>
+                  </li>
+                  <li onClick={(e) => handleComfirm("delete", noteTitle)}>
+                    <a>ลบโน๊ตนี้</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div className="card max-h-[70vh] overflow-hidden mt-4">
               <div className="overflow-y-auto bg-white rounded-box shadow-md">
                 <table className="table">
                   <tbody>
@@ -153,7 +231,9 @@ const viewNotePage = () => {
                             <td className="w-10 px-3">
                               <label>
                                 <input
-                                  onChange={(e) => handleComplete(item)}
+                                  onChange={(e) =>
+                                    handleComplete("single", item)
+                                  }
                                   type="checkbox"
                                   className="checkbox"
                                   checked={item.isComplete ? "checked" : ""}
@@ -161,7 +241,7 @@ const viewNotePage = () => {
                               </label>
                             </td>
                             <td
-                              onClick={(e) => handleComplete(item)}
+                              onClick={(e) => handleComplete("single", item)}
                               className="p-0"
                             >
                               {item.text}

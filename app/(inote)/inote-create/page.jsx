@@ -2,11 +2,13 @@
 import config from "@/app/config";
 import Template from "@/components/Template";
 import axios from "axios";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import * as Icon from "react-bootstrap-icons";
 import Swal from "sweetalert2";
 
 const createNotePage = () => {
+  const boxRef = useRef(null);
+  const [height, setHeight] = useState(0);
   const [btnDel, setBtnDel] = useState(false);
   const [isClient, setIsClient] = useState(false);
   const [cntCheck, setCntCheck] = useState(0);
@@ -35,8 +37,6 @@ const createNotePage = () => {
     } else {
       elm.focus();
     }
-    //set btndel
-    setBtnDel(todo.length > 1 ? true : false);
   }, [todo]);
 
   // TODOS
@@ -51,11 +51,6 @@ const createNotePage = () => {
     return result;
   });
 
-  // Global
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-
   useEffect(() => {
     localStorage.setItem("todos", JSON.stringify(todos));
     let countChecked = 0;
@@ -65,7 +60,15 @@ const createNotePage = () => {
       }
     }
     setCntCheck(countChecked);
+    //set btndel
+    setBtnDel(todos.length > 0 ? true : false);
   }, [todos]);
+
+  // Global
+  useEffect(() => {
+    setIsClient(true);
+    setHeight(boxRef.current.getBoundingClientRect().height);
+  }, []);
 
   const handleTodoSubmit = () => {
     if (todo.trim() !== "") {
@@ -163,139 +166,150 @@ const createNotePage = () => {
     let { value } = event.target;
     if (event.key == "Enter") {
       handleTodoSubmit();
-      setTimeout(() => {
-        setTodo("");
-      }, 100);
+      setTodo("");
     }
   };
 
   return (
     <>
       <Template title={"Create Note"}>
-        <div className="min-h-screen w-full bg-base-200">
-          <section className="min-h-screen px-4 py-18 mb-10">
-            <div className="w-full">
-              <div
-                className="card my-2 h-32 shadow-md relative"
-                style={{
-                  backgroundImage: "url('./bg/note-text-bg.jpg')",
-                  backgroundRepeat: "no-repeat",
-                  backgroundPosition: "center center",
-                  backgroundSize: "cover",
-                }}
-              >
-                <textarea
-                  value={todo}
-                  onChange={(e) => setTodo(e.target.value)}
-                  name="todo"
-                  id="noteText"
-                  rows="4"
-                  className="py-4 px-8 focus:outline-0"
-                  placeholder="Enter Note heer.."
-                  onKeyDown={changeHandler}
-                ></textarea>
+        <div className="h-[100vh] w-full bg-base-200" ref={boxRef}>
+          <section className="min-h-screen px-4 py-18">
+            <div className="flex items-center justify-between">
+              <div className="join">
                 <button
-                  id="btnClearForm"
-                  onClick={() => {
-                    setTodo("");
-                    document.getElementById("noteText").focus();
-                  }}
-                  className={`btn btn-sm btn-circle btn-error absolute -top-2 -right-2 text-white ${
-                    btnDel ? "" : "hidden"
+                  className={`btn btn-info join-item ${
+                    btnDel ? "" : "btn-disabled"
                   }`}
                 >
-                  <Icon.XLg />
+                  ลบทั้งหมด <Icon.Trash3Fill />
                 </button>
-              </div>
-              <div className="w-full flex my-4">
                 <button
-                  onClick={handleTodoSubmit}
-                  className="btn rounded-2xl btn-info flex-1 text-white"
+                  className={`btn btn-info join-item ${
+                    cntCheck > 0 ? "" : "btn-disabled"
+                  }`}
                 >
-                  บันทึกข้อความ
+                  แชร์ <Icon.Share />
                 </button>
               </div>
+              <button
+                className={`btn btn-info ${cntCheck > 0 ? "" : "btn-disabled"}`}
+                onClick={() =>
+                  document.getElementById("modalCreateNote").showModal()
+                }
+              >
+                สร้างโน๊ต <Icon.ArchiveFill />
+              </button>
             </div>
-
-            <div className="card min-h-[10vh] max-h-[50vh] overflow-hidden my-4">
-              {/* <div className="divider">
-                รายการโน๊ต
-                <Icon.PenFill className="text-5xl" />
-              </div> */}
-              <div className="overflow-y-auto">
-                <table className="table bg-white rounded-box shadow-md">
-                  <thead className="bg-black">
-                    <tr>
-                      <th colSpan={3} className="text-white">
-                        รายการโน๊ต
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {isClient ? (
-                      todos.length > 0 ? (
-                        todos
-                          .slice(0)
-                          .reverse()
-                          .map((item, index) => (
-                            <tr key={index}>
-                              <td className="w-10 px-3">
-                                <label>
-                                  <input
-                                    onChange={(e) => handleEdit(item)}
-                                    type="checkbox"
-                                    className="checkbox"
-                                    checked={item.checked ? "checked" : ""}
-                                  />
-                                </label>
-                              </td>
-                              <td
-                                onClick={(e) => handleEdit(item)}
-                                className="p-0"
-                              >
-                                {item.text}
-                              </td>
-                              <td className="w-12 p-0 text-center">
-                                <button
-                                  onClick={(e) => handleComfirm("remove", item)}
-                                  className="btn btn-circle btn-xs"
+            <div className={`h-[73vh]`}>
+              <div className={`card h-full overflow-hidden my-4`}>
+                <div className="overflow-y-auto">
+                  <table className="table bg-white rounded-box shadow-md">
+                    <thead className="bg-black">
+                      <tr>
+                        <th colSpan={3} className="text-white">
+                          รายการโน๊ต {height}
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {isClient ? (
+                        todos.length > 0 ? (
+                          todos
+                            .slice(0)
+                            .reverse()
+                            .map((item, index) => (
+                              <tr key={index}>
+                                <td className="w-10 px-3">
+                                  <label>
+                                    <input
+                                      onChange={(e) => handleEdit(item)}
+                                      type="checkbox"
+                                      className="checkbox"
+                                      checked={item.checked ? "checked" : ""}
+                                    />
+                                  </label>
+                                </td>
+                                <td
+                                  onClick={(e) => handleEdit(item)}
+                                  className="p-0"
                                 >
-                                  <Icon.Trash3 />
-                                </button>
-                              </td>
-                            </tr>
-                          ))
-                      ) : (
-                        <tr>
-                          <td
-                            colSpan={3}
-                            className="text-center text-neutral-600 h-[30vh]"
-                          >
-                            <h2 className="text-sm">
-                              "สร้างบันทึก..ได้อย่างรวดเร็ว"
-                            </h2>
-                          </td>
-                        </tr>
-                      )
-                    ) : null}
-                  </tbody>
-                </table>
+                                  {item.text}
+                                </td>
+                                <td className="w-12 p-0 text-center">
+                                  <button
+                                    onClick={(e) =>
+                                      handleComfirm("remove", item)
+                                    }
+                                    className="btn btn-circle btn-xs"
+                                  >
+                                    <Icon.Trash3 />
+                                  </button>
+                                </td>
+                              </tr>
+                            ))
+                        ) : (
+                          <tr>
+                            <td
+                              colSpan={3}
+                              className="text-center text-neutral-600 h-[30vh]"
+                            >
+                              <h2 className="text-sm">
+                                "สร้างบันทึก..ได้อย่างรวดเร็ว"
+                              </h2>
+                            </td>
+                          </tr>
+                        )
+                      ) : null}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
-            <button
-              className={`btn btn-lg btn-block btn-info text-white ${
-                cntCheck > 0 ? "" : "btn-disabled"
-              }`}
-              onClick={() => document.getElementById("my_modal_2").showModal()}
-            >
-              สร้าง Note
-            </button>
           </section>
+          <footer className="fixed bottom-0 w-full bg-white flex items-center justify-between gap-2 px-4 pt-2 pb-8">
+            <div className="bg-base-200 flex-1 h-[5vh] overflow-hidden rounded-full">
+              <input
+                value={todo}
+                onChange={(e) => setTodo(e.target.value)}
+                type="text"
+                name="todo"
+                id="noteText"
+                className="input flex-1 border-0 focus:outline-0 w-full rounded-none scrollHide"
+                placeholder="พิมพ์ข้อความ"
+                onKeyDown={changeHandler}
+              />
+            </div>
+            <div>
+              <Icon.SendFill
+                onClick={handleTodoSubmit}
+                className="rotate-45 text-2xl text-blue-600"
+              />
+            </div>
+          </footer>
         </div>
       </Template>
 
+      {/* <div className="bg-info fixed">
+        <div className="w-96 bg-amber-400">
+          <div className="bg-error">
+            <input
+              type="text"
+              name=""
+              id=""
+              className="input"
+              placeholder="พิมพ์ข้อความ"
+            />
+          </div>
+          <div>send</div>
+        </div>
+      </div> */}
+
       {/* //Modal Enter Title Note */}
-      <dialog id="my_modal_2" className="modal modal-bottom sm:modal-middle">
+      <dialog
+        id="modalCreateNote"
+        className="modal modal-bottom sm:modal-middle"
+      >
         <div className="modal-box">
           <h3 className="font-bold text-lg">ป้อนหัวข้อสำหรับ Note นี้</h3>
           <p className="py-4">
