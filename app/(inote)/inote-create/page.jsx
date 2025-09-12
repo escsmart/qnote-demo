@@ -8,7 +8,6 @@ import * as Icon from "react-bootstrap-icons";
 import Swal from "sweetalert2";
 
 const createNotePage = () => {
-  const [btnDel, setBtnDel] = useState(false);
   const [isClient, setIsClient] = useState(false);
   const [cntCheck, setCntCheck] = useState(0);
   const [titleNote, setTitleNote] = useState("");
@@ -60,8 +59,6 @@ const createNotePage = () => {
       }
     }
     setCntCheck(countChecked);
-    //set btndel
-    setBtnDel(todos.length > 0 ? true : false);
   }, [todos]);
 
   // Global
@@ -189,10 +186,10 @@ const createNotePage = () => {
               <div className="join">
                 <button
                   className={`btn btn-info join-item ${
-                    btnDel ? "" : "btn-disabled"
+                    cntCheck > 0 ? "" : "btn-disabled"
                   }`}
                 >
-                  ลบทั้งหมด <Icon.Trash3Fill />
+                  ลบ <Icon.Trash3Fill />
                 </button>
                 <button
                   onClick={scrollTotop}
