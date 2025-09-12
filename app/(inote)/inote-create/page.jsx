@@ -159,10 +159,6 @@ const createNotePage = () => {
         }
       });
     } else if (type == "createNote") {
-      if (titleNote == "") {
-        alert("กรุณาป้อนหัวข้อโน๊ต");
-      }
-      return console.log("first");
       handleSaveNote();
     }
   };
