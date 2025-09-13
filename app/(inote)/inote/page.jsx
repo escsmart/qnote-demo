@@ -45,7 +45,7 @@ const inotePage = () => {
 
   return (
     <>
-      <Template title={"i Note"}>
+      <Template title={"รายการโน๊ต"}>
         <div className="min-h-screen w-full bg-base-200">
           <div className={`h-8 flex items-center justify-center`}>
             <span
@@ -55,30 +55,8 @@ const inotePage = () => {
             ></span>
           </div>
           <section className="min-h-screen px-4 pt-10 pb-18 mb-10">
-            <div className="w-full">
-              <Link
-                href={"/inote-create"}
-                className="card h-32 my-2 shadow-md"
-                style={{
-                  backgroundImage: "url('./bg/note-text-bg.jpg')",
-                  backgroundRepeat: "no-repeat",
-                  backgroundPosition: "center center",
-                  backgroundSize: "cover",
-                }}
-              >
-                <p className="py-4 px-8">เขียนโน๊ตอย่างรวดเร็ว</p>
-              </Link>
-            </div>
-
-            <div className="overflow-x-auto rounded-box border border-base-content/5 bg-white mt-4">
+            <div className="overflow-x-auto rounded-box border border-base-content/5 bg-white mt-2">
               <table className="table">
-                <thead className="bg-black">
-                  <tr>
-                    <th colSpan={2} className="text-white">
-                      รายการโน๊ต
-                    </th>
-                  </tr>
-                </thead>
                 <tbody>
                   {loadSuccess ? (
                     notes.length > 0 ? (
@@ -118,6 +96,14 @@ const inotePage = () => {
                   )}
                 </tbody>
               </table>
+            </div>
+            <div className="mt-4">
+              <button
+                onClick={() => router.push("/inote-create")}
+                className="btn btn-block btn-info"
+              >
+                <Icon.PencilFill className="text-xl" /> เขียนโน๊ตอย่างรวดเร็ว
+              </button>
             </div>
           </section>
         </div>

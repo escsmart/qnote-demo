@@ -82,23 +82,7 @@ const createNotePage = () => {
     setTodo("");
   };
 
-  const handleRemove = (id) => {
-    const removeItem = todos.filter((todo) => {
-      return todo.id !== id;
-    });
-    let results = [];
-    for (let i = 0; i < removeItem.length; i++) {
-      const data = removeItem[i];
-      const newData = {
-        id: i + 1,
-        text: data.text,
-        checked: data.checked,
-      };
-      results.push(newData);
-    }
-    setTodos(results);
-  };
-
+  // edit Note
   const handleEdit = (item) => {
     let countChecked = 0;
     if (item.checked == false) {
@@ -116,6 +100,7 @@ const createNotePage = () => {
     setTodos(editItem);
   };
 
+  // Save Note
   const handleSaveNote = async () => {
     let arr_data = [];
     for (let i = 0; i < todos.length; i++) {
@@ -141,6 +126,42 @@ const createNotePage = () => {
       });
   };
 
+  // remove Note
+  const handleRemove = (id) => {
+    const removeItem = todos.filter((todo) => {
+      return todo.id !== id;
+    });
+    let results = [];
+    for (let i = 0; i < removeItem.length; i++) {
+      const data = removeItem[i];
+      const newData = {
+        id: i + 1,
+        text: data.text,
+        checked: data.checked,
+      };
+      results.push(newData);
+    }
+    setTodos(results);
+  };
+
+  // removeOnSelect
+  const removeOnSelect = () => {
+    const removeItem = todos.filter((todo) => {
+      return todo.checked !== true;
+    });
+    let results = [];
+    for (let i = 0; i < removeItem.length; i++) {
+      const data = removeItem[i];
+      const newData = {
+        id: i + 1,
+        text: data.text,
+        checked: data.checked,
+      };
+      results.push(newData);
+    }
+    setTodos(results);
+  };
+
   const handleComfirm = (type, item) => {
     if (type == "remove") {
       Swal.fire({
@@ -157,6 +178,19 @@ const createNotePage = () => {
       });
     } else if (type == "createNote") {
       handleSaveNote();
+    } else if (type == "removeOnSelect") {
+      Swal.fire({
+        text: `ลบรายการที่เลือก ?`,
+        icon: "question",
+        showCancelButton: true,
+        cancelButtonText: "NO",
+        showConfirmButton: true,
+        confirmButtonText: "YES",
+      }).then((res) => {
+        if (res.isConfirmed) {
+          removeOnSelect();
+        }
+      });
     }
   };
 
@@ -185,6 +219,7 @@ const createNotePage = () => {
             <div className="flex items-center justify-between mt-2">
               <div className="join">
                 <button
+                  onClick={() => handleComfirm("removeOnSelect", "")}
                   className={`btn btn-info join-item ${
                     cntCheck > 0 ? "" : "btn-disabled"
                   }`}
@@ -290,10 +325,7 @@ const createNotePage = () => {
       </Template>
 
       {/* //Modal Enter Title Note */}
-      <dialog
-        id="modalCreateNote"
-        className="modal modal-bottom sm:modal-middle"
-      >
+      <dialog id="modalCreateNote" className="modal modal-top sm:modal-middle">
         <div className="modal-box">
           <h3 className="font-bold text-lg">ป้อนหัวข้อสำหรับ Note นี้</h3>
           <p className="py-4">
@@ -301,7 +333,7 @@ const createNotePage = () => {
               value={titleNote}
               onChange={(e) => {
                 setTitleNote(e.target.value);
-                if (e.target.value.length > 4) {
+                if (e.target.value.length > 3) {
                   setBtnCreateNote(true);
                 } else {
                   setBtnCreateNote(false);

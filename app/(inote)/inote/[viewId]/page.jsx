@@ -76,6 +76,21 @@ const viewNotePage = () => {
       });
   };
 
+  // Edit Title
+  const handleEditTitle = async () => {
+    const payload = {
+      id: viewId,
+      title: noteTitle,
+    };
+    await axios
+      .put(config.apiServer + "/inote/editTitle", payload)
+      .then((res) => {
+        if (res.data.message === "success") {
+          fetchData();
+        }
+      });
+  };
+
   // Confirm Alert
   const handleComfirm = (type, item) => {
     if (type == "remove") {
@@ -106,6 +121,8 @@ const viewNotePage = () => {
           handleRemoveNote();
         }
       });
+    } else if (type == "editTitleNote") {
+      handleEditTitle();
     }
   };
 
@@ -208,7 +225,11 @@ const viewNotePage = () => {
                   tabIndex={0}
                   className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm"
                 >
-                  <li>
+                  <li
+                    onClick={() =>
+                      document.getElementById("modalEditTitleNote").showModal()
+                    }
+                  >
                     <a>แก้ไขชื่อหัวข้อ</a>
                   </li>
                   <li onClick={(e) => handleComfirm("delete", noteTitle)}>
@@ -291,8 +312,7 @@ const viewNotePage = () => {
       </Template>
 
       {/* ModalAddNote */}
-
-      <dialog id="modalAddNote" className="modal">
+      <dialog id="modalAddNote" className="modal modal-top sm:modal-middle">
         <div className="modal-box">
           <form method="dialog">
             <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
@@ -323,6 +343,43 @@ const viewNotePage = () => {
             </form>
           </div>
         </div>
+        <form method="dialog" className="modal-backdrop">
+          <button>close</button>
+        </form>
+      </dialog>
+
+      {/* //Modal Enter Title Note */}
+      <dialog
+        id="modalEditTitleNote"
+        className="modal modal-top sm:modal-middle"
+      >
+        <div className="modal-box">
+          <h3 className="font-bold text-lg">ป้อนหัวข้อสำหรับ Note นี้</h3>
+          <p className="py-4">
+            <input
+              value={noteTitle}
+              onChange={(e) => setNoteTitle(e.target.value)}
+              type="text"
+              className="input w-full focus:outline-0"
+              placeholder="Enter Note Title"
+            />
+          </p>
+          <div className="w-full mt-4">
+            <form method="dialog">
+              <button
+                onClick={() => handleComfirm("editTitleNote", "")}
+                className={`btn btn-block ${
+                  noteTitle !== "" ? null : "btn-disabled"
+                } btn-success text-white`}
+              >
+                บันทึก
+              </button>
+            </form>
+          </div>
+        </div>
+        <form method="dialog" className="modal-backdrop">
+          <button>close</button>
+        </form>
       </dialog>
     </>
   );
