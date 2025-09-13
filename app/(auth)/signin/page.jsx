@@ -42,8 +42,8 @@ const signInPage = () => {
                 SIGN IN
               </button>
               <div className="flex items-center justify-between w-full my-4 text-sm text-slate-500">
-                <div>ลืมรหัสผ่าน</div>
-                <div>สร้างบัญชี</div>
+                <Link href={"/forget"}>ลืมรหัสผ่าน</Link>
+                <Link href={"/signup"}>สร้างบัญชี</Link>
               </div>
             </div>
 

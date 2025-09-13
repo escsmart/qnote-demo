@@ -23,8 +23,6 @@ const signUpPage = () => {
                 <div className="text-slate-400 text-xs">(required)</div>
               </label>
               {/* m */}
-              {/* m */}
-              {/* m */}
               <label className="input floating-label w-full border-[1px] rounded-xl h-12 my-4 bg-white">
                 <Icon.At className="text-xl" />
                 <span>EMAIL</span>
@@ -35,8 +33,6 @@ const signUpPage = () => {
                 />
                 <div className="text-slate-400 text-xs">(required)</div>
               </label>
-              {/* m */}
-              {/* m */}
               {/* m */}
               <label className="input floating-label w-full border-[1px] rounded-xl h-12 bg-white">
                 <Icon.Key className="text-xl rotate-45" />
@@ -49,8 +45,6 @@ const signUpPage = () => {
                 <div className="text-slate-400 text-xs">(required)</div>
               </label>
               {/* m */}
-              {/* m */}
-              {/* m */}
               <label className="input floating-label w-full border-[1px] rounded-xl h-12 mt-4 bg-white">
                 <Icon.Key className="text-xl rotate-45" />
                 <span>PASSWORD</span>
@@ -62,14 +56,12 @@ const signUpPage = () => {
                 <div className="text-slate-400 text-xs">(required)</div>
               </label>
               {/* m */}
-              {/* m */}
-              {/* m */}
               <button className="btn btn-block btn-info rounded-xl mt-6">
                 CREATE ACCOUNT
               </button>
               <div className="flex items-center justify-between w-full my-4 text-sm text-slate-500">
-                <div>Sign In</div>
-                <div>สร้างโน๊ต (ไม่ SignIn)</div>
+                <Link href={"/signin"}>ไปหน้า SignIn</Link>
+                <Link href={"/inote-create"}>สร้างโน๊ตไม่ SignIn</Link>
               </div>
             </div>
 
