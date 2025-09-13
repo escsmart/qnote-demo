@@ -22,6 +22,12 @@ const Sidebar = () => {
             <li>
               <Link href={"/mylist"}>ความเคลื่อนไหว</Link>
             </li>
+            <li>
+              <Link href={"/signin"}>Sign In</Link>
+            </li>
+            <li>
+              <Link href={"/signup"}>Sign Up</Link>
+            </li>
           </ul>
         </ul>
       </div>

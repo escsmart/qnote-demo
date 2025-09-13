@@ -24,8 +24,6 @@ const TopBar = ({ title }) => {
   // }, []);
 
   useEffect(() => {
-    // window.scrollTo({ top: 0, behavior: "smooth" });
-    // checkOntop();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => {
       window.removeEventListener("scroll", onScroll, { passive: true });
@@ -43,7 +41,7 @@ const TopBar = ({ title }) => {
           isVisible ? "titleBarOntop" : "titleBarOnScroll"
         }`}
       >
-        <div className="flex items-center justify-between gap-3 p-3 px-4 w-full">
+        <div className="flex items-center justify-between gap-4 p-3 px-4 w-full">
           {path == "/" ? (
             <label htmlFor="my-drawer" className="drawer-button">
               <Icon.List />

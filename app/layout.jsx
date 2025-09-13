@@ -1,8 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Prompt } from "next/font/google";
-import TopBar from "@/components/TopBar";
-import MenuBottom from "@/components/MenuBottom";
 
 //เพิ่ม font google
 const prompt = Prompt({

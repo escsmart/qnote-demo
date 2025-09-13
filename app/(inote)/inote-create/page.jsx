@@ -3,15 +3,21 @@ import config from "@/app/config";
 import Template from "@/components/Template";
 import axios from "axios";
 import Link from "next/link";
+import moment from "moment";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import * as Icon from "react-bootstrap-icons";
 import Swal from "sweetalert2";
 
 const createNotePage = () => {
+  const router = useRouter();
   const [isClient, setIsClient] = useState(false);
   const [cntCheck, setCntCheck] = useState(0);
   const [titleNote, setTitleNote] = useState("");
   const [btnCreateNote, setBtnCreateNote] = useState(false);
+  const [titleList, setTitleList] = useState([]);
+  const [loadSuccess, setLoadSuccess] = useState(false);
+  const [sharedToId, setSharedToId] = useState(0);
 
   // TODO
   const [todo, setTodo] = useState(() => {
@@ -147,7 +153,7 @@ const createNotePage = () => {
   // removeOnSelect
   const removeOnSelect = () => {
     const removeItem = todos.filter((todo) => {
-      return todo.checked !== true;
+      return todo.checked == false;
     });
     let results = [];
     for (let i = 0; i < removeItem.length; i++) {
@@ -162,6 +168,7 @@ const createNotePage = () => {
     setTodos(results);
   };
 
+  // Alert2 Confirm
   const handleComfirm = (type, item) => {
     if (type == "remove") {
       Swal.fire({
@@ -199,17 +206,58 @@ const createNotePage = () => {
     if (event.key == "Enter") {
       document.getElementById("linkBt").click();
       handleTodoSubmit();
-      // setTodo("");
     }
   };
 
-  const scrollTotop = () => {
-    window.scrollTo({
-      bottom: 0, // Vertical position
-      left: 0, // Horizontal position (optional, defaults to current)
-      behavior: "smooth", // Smooth scrolling animation
+  // Get Title
+  const handleGetTitle = async () => {
+    await axios.get(config.apiServer + "/inote/list").then((res) => {
+      if (res.data.message === "success") {
+        setTitleList(res.data.data);
+        setLoadSuccess(true);
+      }
     });
   };
+
+  // Share to Note
+  const handleSharedToNote = async () => {
+    const sharedItem = todos.filter((todo) => {
+      return todo.checked == true;
+    });
+    const payload = {
+      toId: sharedToId,
+      list: sharedItem,
+    };
+    await axios
+      .post(config.apiServer + "/inote/sharedto-title", payload)
+      .then((res) => {
+        if (res.data.message === "success") {
+          // สร้าง localStorage ใหม่
+          const newItem = todos.filter((todo) => {
+            return todo.checked == false;
+          });
+          let results = [];
+          for (let i = 0; i < newItem.length; i++) {
+            const data = newItem[i];
+            const newData = {
+              id: i + 1,
+              text: data.text,
+              checked: data.checked,
+            };
+            results.push(newData);
+          }
+          setTodos(results);
+        }
+      });
+  };
+
+  // const scrollTotop = () => {
+  //   window.scrollTo({
+  //     bottom: 0, // Vertical position
+  //     left: 0, // Horizontal position (optional, defaults to current)
+  //     behavior: "smooth", // Smooth scrolling animation
+  //   });
+  // };
 
   return (
     <>
@@ -219,20 +267,30 @@ const createNotePage = () => {
             <div className="flex items-center justify-between mt-2">
               <div className="join">
                 <button
+                  onClick={() => router.push("/inote")}
+                  className={`btn btn-info join-item`}
+                >
+                  <Icon.ListUl className="text-xl" />
+                </button>
+                <button
                   onClick={() => handleComfirm("removeOnSelect", "")}
                   className={`btn btn-info join-item ${
                     cntCheck > 0 ? "" : "btn-disabled"
                   }`}
                 >
-                  ลบ <Icon.Trash3Fill />
+                  <Icon.Trash3Fill />
                 </button>
                 <button
-                  onClick={scrollTotop}
+                  onClick={() => {
+                    setSharedToId(0);
+                    handleGetTitle();
+                    document.getElementById("modalSharedNote").showModal();
+                  }}
                   className={`btn btn-info join-item ${
                     cntCheck > 0 ? "" : "btn-disabled"
                   }`}
                 >
-                  แชร์ <Icon.Share />
+                  <Icon.Share />
                 </button>
               </div>
               <button
@@ -241,7 +299,7 @@ const createNotePage = () => {
                   document.getElementById("modalCreateNote").showModal()
                 }
               >
-                สร้างโน๊ต <Icon.ArchiveFill />
+                สร้าง <Icon.PlusLg className="text-xl" />
               </button>
             </div>
             <div className={`h-[72vh] flex flex-col justify-start mt-4`}>
@@ -353,6 +411,80 @@ const createNotePage = () => {
                 } btn-success text-white`}
               >
                 บันทึก
+              </button>
+            </form>
+          </div>
+        </div>
+        <form method="dialog" className="modal-backdrop">
+          <button>close</button>
+        </form>
+      </dialog>
+
+      {/* //Modal Share to Note */}
+      <dialog id="modalSharedNote" className="modal modal-top sm:modal-middle">
+        <div className="modal-box">
+          <form method="dialog">
+            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+              ✕
+            </button>
+          </form>
+          <h3 className="font-bold text-lg">เลือกหัวข้อโน๊ตที่จะ แชร์รายการ</h3>
+          <div className="py-4">
+            <div className="overflow-x-auto rounded-box border border-base-content/5 bg-white mt-2 shadow-md">
+              <table className="table">
+                <tbody>
+                  {loadSuccess ? (
+                    titleList.length > 0 ? (
+                      titleList
+                        .slice(0)
+                        .reverse()
+                        .map((item, index) => (
+                          <tr key={index}>
+                            <td>{item.title}</td>
+                            <td className="text-neutral-400 text-xs w-10">
+                              <input
+                                onClick={() => setSharedToId(item.id)}
+                                type="radio"
+                                name="selNote"
+                                aria-label="เลือก"
+                                className="btn btn-sm"
+                              />
+                            </td>
+                          </tr>
+                        ))
+                    ) : (
+                      <tr>
+                        <td colSpan={2} className="text-center p-4">
+                          <div className="inline-block">
+                            <Icon.InfoCircle className="text-2xl text-neutral-600" />
+                          </div>
+                          <p className="text-neutral-500">
+                            ผิดพลาด คุณยังไม่เคยสร้างโน๊ต
+                          </p>
+                        </td>
+                      </tr>
+                    )
+                  ) : (
+                    <tr>
+                      <td colSpan={2} className="text-center p-4">
+                        <span className="loading loading-spinner text-info"></span>
+                        <p className="text-neutral-500 mt-2">Loading</p>
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div className="w-full mt-4">
+            <form method="dialog">
+              <button
+                onClick={() => handleSharedToNote()}
+                className={`btn btn-block ${
+                  sharedToId !== 0 ? null : "btn-disabled"
+                } btn-info text-white`}
+              >
+                แชร์
               </button>
             </form>
           </div>
