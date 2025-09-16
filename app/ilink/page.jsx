@@ -1,3 +1,4 @@
+import MenuBottom from "@/components/MenuBottom";
 import Template from "@/components/Template";
 
 const ilinkPage = () => {
@@ -32,6 +33,7 @@ const ilinkPage = () => {
           </section>
         </div>
       </Template>
+      <MenuBottom />
     </>
   );
 };

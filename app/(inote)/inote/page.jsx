@@ -102,7 +102,7 @@ const inotePage = () => {
                 onClick={() => router.push("/inote-create")}
                 className="btn btn-block btn-info"
               >
-                <Icon.PencilFill className="text-xl" /> เขียนโน๊ตอย่างรวดเร็ว
+                <Icon.PencilFill className="text-xl" /> เขียนโน๊ตอย่างรวดเร็ว{" "}
               </button>
             </div>
           </section>

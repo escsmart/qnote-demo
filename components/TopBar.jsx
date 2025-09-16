@@ -50,6 +50,11 @@ const TopBar = ({ title }) => {
             <Icon.ChevronLeft onClick={() => navigate.back()} />
           )}
           <div className="flex-1">{title}</div>
+          {path == "/shop" ? (
+            <label htmlFor="my-drawer" className="drawer-button">
+              <Icon.Cart3 />
+            </label>
+          ) : null}
           <Icon.BellFill onClick={() => window.location.reload()} />
         </div>
       </div>

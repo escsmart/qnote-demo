@@ -11,11 +11,24 @@ const config = {
       },
     };
   },
+  uData: (req) => {
+    let res = undefined;
+    if (req == "uId") {
+      res = localStorage.getItem("uId");
+    } else if (req == "uName") {
+      res = localStorage.getItem("uName");
+    } else if (req == "uLevel") {
+      res = localStorage.getItem("uLevel");
+    } else if (req == "uPic") {
+      res = localStorage.getItem("uPic");
+    }
+    return res;
+  },
   headerAuth: () => {
     return {
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + localStorage.getItem("token"),
+        Authorization: "Bearer " + localStorage.getItem("tokenSignin"),
       },
     };
   },
