@@ -10,12 +10,12 @@ import * as Icon from "react-bootstrap-icons";
 
 const signUpPage = () => {
   const router = useRouter();
-  const [stepUp, setStepUp] = useState(3);
+  const [stepUp, setStepUp] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
-    id: 3,
-    name: "khun",
-    phone: "0989499969",
+    id: 0,
+    name: "",
+    phone: "",
     password: "",
   });
 
