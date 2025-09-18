@@ -116,7 +116,13 @@ const profilePage = () => {
                     />
                   </span>
                   <div className="mask mask-squircle w-24">
-                    <img src={"./usernone.png"} alt="" width={50} />
+                    <img
+                      src={
+                        config.apiServer + "/images/" + userData.profileImage
+                      }
+                      alt=""
+                      width={50}
+                    />
                   </div>
                 </div>
 
