@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import * as Icon from "react-bootstrap-icons";
 import Swal from "sweetalert2";
+import PageLoading from "@/components/PageLoading";
 
 const createNotePage = () => {
   const router = useRouter();
@@ -33,15 +34,6 @@ const createNotePage = () => {
 
   useEffect(() => {
     localStorage.setItem("todo", todo);
-    // setfocus
-    const elm = document.getElementById("noteText");
-    const tLength = todo.length;
-    if (tLength > 0) {
-      elm.focus();
-      elm.setSelectionRange(tLength, tLength);
-    } else {
-      elm.focus();
-    }
   }, [todo]);
 
   // TODOS
@@ -132,24 +124,6 @@ const createNotePage = () => {
       });
   };
 
-  // remove Note
-  const handleRemove = (id) => {
-    const removeItem = todos.filter((todo) => {
-      return todo.id !== id;
-    });
-    let results = [];
-    for (let i = 0; i < removeItem.length; i++) {
-      const data = removeItem[i];
-      const newData = {
-        id: i + 1,
-        text: data.text,
-        checked: data.checked,
-      };
-      results.push(newData);
-    }
-    setTodos(results);
-  };
-
   // removeOnSelect
   const removeOnSelect = () => {
     const removeItem = todos.filter((todo) => {
@@ -170,20 +144,7 @@ const createNotePage = () => {
 
   // Alert2 Confirm
   const handleComfirm = (type, item) => {
-    if (type == "remove") {
-      Swal.fire({
-        text: `ลบรายการ ${item.text} ?`,
-        icon: "question",
-        showCancelButton: true,
-        cancelButtonText: "NO",
-        showConfirmButton: true,
-        confirmButtonText: "YES",
-      }).then((res) => {
-        if (res.isConfirmed) {
-          handleRemove(item.id);
-        }
-      });
-    } else if (type == "createNote") {
+    if (type == "createNote") {
       handleSaveNote();
     } else if (type == "removeOnSelect") {
       Swal.fire({
@@ -251,17 +212,9 @@ const createNotePage = () => {
       });
   };
 
-  // const scrollTotop = () => {
-  //   window.scrollTo({
-  //     bottom: 0, // Vertical position
-  //     left: 0, // Horizontal position (optional, defaults to current)
-  //     behavior: "smooth", // Smooth scrolling animation
-  //   });
-  // };
-
   return (
     <>
-      <Template title={"Create Note"}>
+      <Template title={"เขียนบันทึก"}>
         <div className="min-h-screen w-full bg-white">
           <section className="min-h-screen px-4 py-18">
             <div className="flex items-center justify-between mt-2">
@@ -305,7 +258,7 @@ const createNotePage = () => {
             <div className={`h-[72vh] flex flex-col justify-start mt-4`}>
               <div className={`card overflow-hidden rounded-none`}>
                 <div className="overflow-y-auto">
-                  <table className="table bg-white shadow-md rounded-none">
+                  <table className="table bg-white rounded-none">
                     <tbody>
                       {isClient ? (
                         todos.length > 0 ? (
@@ -327,21 +280,13 @@ const createNotePage = () => {
                               >
                                 {item.text}
                               </td>
-                              <td className="w-12 p-0 text-center">
-                                <button
-                                  onClick={(e) => handleComfirm("remove", item)}
-                                  className="btn btn-circle btn-xs"
-                                >
-                                  <Icon.Trash3 />
-                                </button>
-                              </td>
                             </tr>
                           ))
                         ) : (
                           <tr>
                             <td
-                              colSpan={3}
-                              className="text-center text-neutral-600 h-[30vh]"
+                              colSpan={2}
+                              className="text-center text-neutral-600 h-[72vh]"
                             >
                               <h2 className="text-sm">
                                 "สร้างบันทึก..ได้อย่างรวดเร็ว"
@@ -350,11 +295,9 @@ const createNotePage = () => {
                           </tr>
                         )
                       ) : null}
-                      <tr>
-                        <td id="bt" className="p-0"></td>
-                      </tr>
                     </tbody>
                   </table>
+                  <div id="bt" className="p-0"></div>
                 </div>
               </div>
             </div>

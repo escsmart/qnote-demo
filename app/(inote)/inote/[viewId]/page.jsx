@@ -7,14 +7,15 @@ import * as Icon from "react-bootstrap-icons";
 import { useParams, useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import Swal from "sweetalert2";
+import PageLoading from "@/components/PageLoading";
 
 const viewNotePage = () => {
   const router = useRouter();
   const { viewId } = useParams();
+  const [pageOnLoad, setPageOnLoad] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [btnComplete, setBtnComplete] = useState(true);
-  const [loadSuccess, setLoadSuccess] = useState(false);
-  const [noteTitle, setNoteTitle] = useState("รายการ");
+  const [noteTitle, setNoteTitle] = useState("โน๊ต");
   const [noteList, setNoteList] = useState([]);
   const [countList, setCountList] = useState(0);
 
@@ -25,8 +26,7 @@ const viewNotePage = () => {
       .then((res) => {
         if (res.data.message === "success") {
           setCountList(res.data.count);
-          setLoadSuccess(true);
-          setNoteTitle(res.data.title);
+          setNoteTitle(`โน๊ต : ${res.data.title}`);
           let dataList = [];
           let dataComplete = [];
           for (let i = 0; i < res.data.data.length; i++) {
@@ -44,6 +44,7 @@ const viewNotePage = () => {
           }
           const items = dataList.concat(dataComplete);
           setNoteList(items);
+          setPageOnLoad(true);
         }
       });
   };
@@ -195,55 +196,57 @@ const viewNotePage = () => {
               }`}
             ></span>
           </div>
-          <section className="min-h-screen px-4 pt-10 pb-18 mb-10">
-            <div className="flex items-center justify-between">
-              <div className="join">
-                <button
-                  onClick={() => handleComplete("all", "")}
-                  className={`btn btn-info join-item ${
-                    btnComplete ? null : "btn-disabled"
-                  }`}
-                >
-                  เสร็จทั้งหมด
-                </button>
-                <button className="btn btn-info join-item">
-                  <Icon.Star />
-                </button>
-                <button className="btn btn-info join-item">
-                  <Icon.Share />
-                </button>
-              </div>
-              <div className="dropdown dropdown-end">
-                <div
-                  tabIndex={0}
-                  role="button"
-                  className="btn btn-info btn-circle m-1"
-                >
-                  <Icon.GearFill />
-                </div>
-                <ul
-                  tabIndex={0}
-                  className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm"
-                >
-                  <li
-                    onClick={() =>
-                      document.getElementById("modalEditTitleNote").showModal()
-                    }
+          {pageOnLoad ? (
+            <section className="min-h-screen px-4 pt-10 pb-18 mb-10">
+              <div className="flex items-center justify-between">
+                <div className="join">
+                  <button
+                    onClick={() => handleComplete("all", "")}
+                    className={`btn btn-info join-item ${
+                      btnComplete ? null : "btn-disabled"
+                    }`}
                   >
-                    <a>แก้ไขชื่อหัวข้อ</a>
-                  </li>
-                  <li onClick={(e) => handleComfirm("delete", noteTitle)}>
-                    <a>ลบโน๊ตนี้</a>
-                  </li>
-                </ul>
+                    เสร็จทั้งหมด
+                  </button>
+                  <button className="btn btn-info join-item">
+                    <Icon.Star />
+                  </button>
+                  <button className="btn btn-info join-item">
+                    <Icon.Share />
+                  </button>
+                </div>
+                <div className="dropdown dropdown-end">
+                  <div
+                    tabIndex={0}
+                    role="button"
+                    className="btn btn-info btn-circle m-1"
+                  >
+                    <Icon.GearFill />
+                  </div>
+                  <ul
+                    tabIndex={0}
+                    className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm"
+                  >
+                    <li
+                      onClick={() =>
+                        document
+                          .getElementById("modalEditTitleNote")
+                          .showModal()
+                      }
+                    >
+                      <a>แก้ไขชื่อหัวข้อ</a>
+                    </li>
+                    <li onClick={(e) => handleComfirm("delete", noteTitle)}>
+                      <a>ลบโน๊ตนี้</a>
+                    </li>
+                  </ul>
+                </div>
               </div>
-            </div>
-            <div className="card max-h-[70vh] overflow-hidden mt-4">
-              <div className="overflow-y-auto bg-white rounded-box shadow-md">
-                <table className="table">
-                  <tbody>
-                    {loadSuccess ? (
-                      noteList.length > 0 ? (
+              <div className="card max-h-[70vh] overflow-hidden mt-4">
+                <div className="overflow-y-auto bg-white rounded-box shadow-md">
+                  <table className="table">
+                    <tbody>
+                      {noteList.length > 0 ? (
                         noteList.map((item, index) => (
                           <tr
                             key={index}
@@ -283,31 +286,26 @@ const viewNotePage = () => {
                         <tr>
                           <td colSpan={2}>ไม่พบข้อมูล สร้างโน๊ตเลย</td>
                         </tr>
-                      )
-                    ) : (
-                      <tr>
-                        <td colSpan={3} className="text-center p-4">
-                          <span className="loading loading-spinner text-info"></span>
-                          <p className="text-neutral-500 mt-2">Loading</p>
-                        </td>
-                      </tr>
-                    )}
-                  </tbody>
-                </table>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
               </div>
-            </div>
 
-            <div className="mt-4">
-              <button
-                onClick={() => {
-                  document.getElementById("modalAddNote").showModal();
-                }}
-                className="btn btn-block btn-info"
-              >
-                <Icon.PlusCircle className="text-xl" /> เพิ่มรายการ
-              </button>
-            </div>
-          </section>
+              <div className="mt-4">
+                <button
+                  onClick={() => {
+                    document.getElementById("modalAddNote").showModal();
+                  }}
+                  className="btn btn-block btn-info"
+                >
+                  <Icon.PlusCircle className="text-xl" /> เพิ่มรายการ
+                </button>
+              </div>
+            </section>
+          ) : (
+            <PageLoading />
+          )}
         </div>
       </Template>
 

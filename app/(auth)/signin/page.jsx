@@ -18,22 +18,20 @@ const signInPage = () => {
 
   const handleSignIn = async () => {
     setIsLoading(true);
-    const usrData = await axios
-      .post(config.apiServer + "/signin", formData)
-      .then((res) => {
-        if (res.data.token !== undefined) {
-          localStorage.setItem("tokenSignin", res.data.token);
-          // user
-          localStorage.setItem("uId", res.data.result.uId);
-          localStorage.setItem("uName", res.data.result.uName);
-          localStorage.setItem("uLevel", res.data.result.uLevel);
-          localStorage.setItem("uPic", res.data.result.uImg);
-          // theme
-          setTimeout(() => {
-            router.push("/");
-          }, 3000);
-        }
-      });
+    await axios.post(config.apiServer + "/signin", formData).then((res) => {
+      if (res.data.token !== undefined) {
+        localStorage.setItem("tokenSignin", res.data.token);
+        // user
+        localStorage.setItem("uId", res.data.result.uId);
+        localStorage.setItem("uName", res.data.result.uName);
+        localStorage.setItem("uLevel", res.data.result.uLevel);
+        localStorage.setItem("uPic", res.data.result.uImg);
+        // theme
+        setTimeout(() => {
+          router.push("/");
+        }, 3000);
+      }
+    });
   };
 
   return (
@@ -60,7 +58,9 @@ const signInPage = () => {
                       onChange={(e) =>
                         setFormData({ ...formData, phone: e.target.value })
                       }
-                      type="text"
+                      type="number"
+                      pattern="[0-9]"
+                      inputMode="numeric"
                       className="grow border-0 focus:outline-0"
                       placeholder="Phone Number"
                     />

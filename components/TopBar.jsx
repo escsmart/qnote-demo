@@ -16,13 +16,6 @@ const TopBar = ({ title }) => {
     }
   }, []);
 
-  // const checkOntop = useCallback((event) => {
-  //   if (window.scrollY !== 0) {
-  //     alert(window.scrollY);
-  //     window.scrollTo({ top: 0, behavior: "smooth" });
-  //   }
-  // }, []);
-
   useEffect(() => {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => {
@@ -55,7 +48,15 @@ const TopBar = ({ title }) => {
               <Icon.Cart3 />
             </label>
           ) : null}
-          <Icon.BellFill onClick={() => window.location.reload()} />
+          <div className="indicator">
+            <span className="indicator-item badge badge-sm border-[1px] border-gray-500 px-1.5 badge-error text-white">
+              4
+            </span>
+            <Icon.BellFill
+              onClick={() => window.location.reload()}
+              className="text-xl"
+            />
+          </div>
         </div>
       </div>
     </div>

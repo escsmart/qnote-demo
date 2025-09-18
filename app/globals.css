@@ -47,3 +47,8 @@
   background-color: var(--color-black);
   color: var(--color-white);
 }
+
+.swal-width {
+  width: 80% !important;
+  border-radius: 10%;
+}

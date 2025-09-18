@@ -6,25 +6,29 @@ import { useEffect, useState } from "react";
 import * as Icon from "react-bootstrap-icons";
 import Swal from "sweetalert2";
 
-const Sidebar = () => {
+const Sidebar = ({ secure }) => {
   const router = useRouter();
   const path = usePathname();
-  const [uData, setUData] = useState({});
+  const [uData, setUData] = useState({
+    uId: 0,
+    uName: "",
+    uLevel: "",
+    uPic: "",
+  });
 
-  const checkPath = (nowPath) => {
-    nowPath == "/signin" ||
-    nowPath == "/signup" ||
-    nowPath == "/" ||
-    nowPath == "/shop"
-      ? null
-      : router.push("/signin");
+  const checkSecure = (bool, nowPath) => {
+    bool && (nowPath == "/signin" || nowPath == "/signup")
+      ? router.push("/")
+      : !bool && secure
+      ? router.push("/signin")
+      : null;
   };
 
   const handleSignOut = () => {
     Swal.fire({
-      title: "SignOut?",
-      text: "ยืนยันการออกจากระบบ หรือไม่",
+      text: "ยืนยันการออกจากระบบ?",
       icon: "question",
+      customClass: "swal-width",
       showConfirmButton: true,
       confirmButtonText: "ยืนยัน",
       showCancelButton: true,
@@ -39,7 +43,8 @@ const Sidebar = () => {
 
   useEffect(() => {
     const userId = localStorage.getItem("uId");
-    if (userId) {
+    const bool = Boolean(userId);
+    if (bool) {
       setUData((prevState) => ({
         ...prevState,
         uId: userId,
@@ -48,8 +53,14 @@ const Sidebar = () => {
         uPic: config.uData("uPic"),
       }));
     } else {
-      checkPath(path);
+      setUData((prevState) => ({
+        ...prevState,
+        uName: "ผู้เยี่ยมชม",
+        uLevel: "Guest",
+        uPic: "usernone.png",
+      }));
     }
+    checkSecure(bool, path);
   }, []);
   return (
     <div className="drawer z-10">
@@ -60,7 +71,7 @@ const Sidebar = () => {
           aria-label="close sidebar"
           className="drawer-overlay"
         ></label>
-        <div className="menu text-base-content min-h-full w-80 p-0 max-w-8/12">
+        <div className="menu text-base-content min-h-full w-9/12 p-0">
           <div className="bg-neutral-300 h-[100vh] rounded-r-3xl p-3 overflow-hidden">
             <div className="card max-h-[97vh] overflow-y-scroll scrollHide">
               {/* // card figure */}
@@ -108,10 +119,13 @@ const Sidebar = () => {
                     className="dropdown-content menu bg-white rounded-box z-1 w-52 p-0 shadow-sm absolute -right-2 transform translate-y-[18%]"
                   >
                     <div className="flex flex-col items-center justify-around">
-                      <div className="w-full inline-flex items-center p-2">
+                      <Link
+                        href={"/profile"}
+                        className="w-full inline-flex items-center p-2"
+                      >
                         <div className="flex-1">Your Profile</div>
                         <Icon.ChevronRight className="justify-end" />
-                      </div>
+                      </Link>
                       <div className="w-full inline-flex items-center p-2 border-y-[1px] border-base-300">
                         <div className="flex-1">Notification</div>
                         <Icon.ChevronRight className="justify-end" />
@@ -128,6 +142,7 @@ const Sidebar = () => {
                 </div>
               </div>
               {/* // NAVIGATION */}
+              <h2 className="my-1 opacity-50">NAVIGATION</h2>
               <div className="bg-white rounded-3xl shadow-md p-4">
                 <div className="flex flex-col items-center justify-around gap-1">
                   <div className="w-full py-2 inline-flex items-center justify-between gap-3">
@@ -137,18 +152,31 @@ const Sidebar = () => {
                     <h2 className="flex-1">Homepage</h2>
                     <Icon.ChevronRight className="justify-end" />
                   </div>
-                  <div className="w-full py-2 inline-flex items-center justify-between gap-3">
-                    <button className="btn btn-sm btn-circle btn-info">
-                      <Icon.HouseExclamation className="" />
+                  <Link
+                    href={"/inote-create"}
+                    className="w-full py-2 inline-flex items-center justify-between gap-3"
+                  >
+                    <button className="btn btn-sm btn-circle btn-success">
+                      <Icon.ChatRightTextFill className="text-white" />
                     </button>
-                    <h2 className="flex-1">Homepage</h2>
+                    <h2 className="flex-1">เขียนโน๊ต</h2>
+                    <Icon.ChevronRight className="justify-end" />
+                  </Link>
+                  <div className="w-full py-2 inline-flex items-center justify-between gap-3">
+                    <button className="btn btn-sm btn-circle bg-pink-800 border-0">
+                      <Icon.PassFill className="text-white" />
+                    </button>
+                    <h2 className="flex-1">โน๊ตทั้งหมด</h2>
                     <Icon.ChevronRight className="justify-end" />
                   </div>
-                  <div className="w-full py-2 inline-flex items-center justify-between gap-3">
-                    <button className="btn btn-sm btn-circle btn-info">
-                      <Icon.HouseExclamation className="" />
+                  <div
+                    onClick={() => console.log(uData)}
+                    className="w-full py-2 inline-flex items-center justify-between gap-3"
+                  >
+                    <button className="btn btn-sm btn-circle btn-error">
+                      <Icon.SuitHeartFill className="text-white" />
                     </button>
-                    <h2 className="flex-1">Homepage</h2>
+                    <h2 className="flex-1">รายการโปรด</h2>
                     <Icon.ChevronRight className="justify-end" />
                   </div>
                 </div>

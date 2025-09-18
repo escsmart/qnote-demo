@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import * as Icon from "react-bootstrap-icons";
 import Sidebar from "./Sidebar";
 
-const MenuBottom = () => {
+const MenuBottom = ({ secure }) => {
   const path = usePathname();
   const [pathname, setPathname] = useState("");
   //   if (pathname == "/mylist") {
@@ -73,7 +73,7 @@ const MenuBottom = () => {
           <span className="dock-label mt-1">All</span>
         </label>
       </div>
-      <Sidebar />
+      <Sidebar secure={secure} />
     </>
   );
 };
