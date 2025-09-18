@@ -19,7 +19,6 @@ const viewNotePage = () => {
   const [noteList, setNoteList] = useState([]);
   const [countList, setCountList] = useState(0);
 
-  // FetchData
   const fetchData = async () => {
     await axios
       .get(config.apiServer + "/inote/view-list/" + viewId)

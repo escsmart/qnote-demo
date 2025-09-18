@@ -80,7 +80,7 @@ const createNotePage = () => {
     setTodo("");
   };
 
-  // edit Note
+  // Note ** Select
   const handleEdit = (item) => {
     let countChecked = 0;
     if (item.checked == false) {
@@ -109,7 +109,7 @@ const createNotePage = () => {
       data: arr_data,
     };
     await axios
-      .post(config.apiServer + "/inote/create", payload)
+      .post(config.apiServer + "/inote/create", payload, config.headerAuth())
       .then((res) => {
         if (res.data.message === "success") {
           let updateTodos = [];
@@ -172,12 +172,14 @@ const createNotePage = () => {
 
   // Get Title
   const handleGetTitle = async () => {
-    await axios.get(config.apiServer + "/inote/list").then((res) => {
-      if (res.data.message === "success") {
-        setTitleList(res.data.data);
-        setLoadSuccess(true);
-      }
-    });
+    await axios
+      .get(config.apiServer + "/inote/list", config.headerAuth())
+      .then((res) => {
+        if (res.data.message === "success") {
+          setTitleList(res.data.data);
+          setLoadSuccess(true);
+        }
+      });
   };
 
   // Share to Note

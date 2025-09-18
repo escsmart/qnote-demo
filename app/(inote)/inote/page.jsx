@@ -5,11 +5,9 @@ import PageLoading from "@/components/PageLoading";
 import Template from "@/components/Template";
 import axios from "axios";
 import moment from "moment";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import * as Icon from "react-bootstrap-icons";
-import Swal from "sweetalert2";
 
 const inotePage = () => {
   const router = useRouter();
@@ -19,13 +17,15 @@ const inotePage = () => {
   const [notes, setNotes] = useState([]);
 
   const fetchData = async () => {
-    await axios.get(config.apiServer + "/inote/list").then((res) => {
-      if (res.data.message === "success") {
-        setNotes(res.data.data);
-        setLoadSuccess(true);
-        setPageOnLoad(true);
-      }
-    });
+    await axios
+      .get(config.apiServer + "/inote/list", config.headerAuth())
+      .then((res) => {
+        if (res.data.message === "success") {
+          setNotes(res.data.data);
+          setLoadSuccess(true);
+          setPageOnLoad(true);
+        }
+      });
   };
 
   // Scrool To Refresh
