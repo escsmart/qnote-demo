@@ -55,6 +55,9 @@ const profilePage = () => {
       .then((res) => {
         if (res.data.message === "success") {
           fetchData();
+          // Update Storage ด้วย
+          localStorage.setItem("uName", res.data.result.name);
+          localStorage.setItem("uPic", res.data.result.profileImage);
         }
       });
   };

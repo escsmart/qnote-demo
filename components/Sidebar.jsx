@@ -100,7 +100,7 @@ const Sidebar = ({ secure }) => {
               <div className="bg-white my-4 rounded-3xl p-2 flex items-center justify-between gap-3 relative">
                 <div className="avatar">
                   <div className="mask mask-squircle w-14">
-                    <img src="https://img.daisyui.com/images/profile/demo/distracted1@192.webp" />
+                    <img src={config.apiServer + "/images/" + uData.uPic} />
                   </div>
                 </div>
                 <div className="flex-1">
