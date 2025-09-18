@@ -42,16 +42,6 @@ const profilePage = () => {
       });
   };
 
-  const uploadPicProfile = async () => {
-    const formData = new FormData();
-    formData.append("myFile", myFile);
-    await axios
-      .post(config.apiServer + "/picture/upload", formData)
-      .then((res) => {
-        console.log(res);
-      });
-  };
-
   const handleSaveUpdate = async () => {
     var formData = new FormData();
     formData.append("id", config.uData("uId"));
@@ -63,7 +53,9 @@ const profilePage = () => {
     await axios
       .post(config.apiServer + "/update-udata", formData)
       .then((res) => {
-        console.log(res);
+        if (res.data.message === "success") {
+          fetchData();
+        }
       });
   };
 
