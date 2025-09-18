@@ -104,6 +104,7 @@ const Sidebar = ({ secure }) => {
                   </div>
                 </div>
                 <div className="flex-1">
+                  {/* {config.apiServer + "/images/" + uData.uPic} */}
                   <h2 className="font-bold">{uData.uName}</h2>
                   <p className="text-gray-400 text-sm">
                     สมาชิก : {uData.uLevel}
@@ -162,13 +163,16 @@ const Sidebar = ({ secure }) => {
                     <h2 className="flex-1">เขียนโน๊ต</h2>
                     <Icon.ChevronRight className="justify-end" />
                   </Link>
-                  <div className="w-full py-2 inline-flex items-center justify-between gap-3">
+                  <Link
+                    href={"/inote"}
+                    className="w-full py-2 inline-flex items-center justify-between gap-3"
+                  >
                     <button className="btn btn-sm btn-circle bg-pink-800 border-0">
                       <Icon.PassFill className="text-white" />
                     </button>
                     <h2 className="flex-1">โน๊ตทั้งหมด</h2>
                     <Icon.ChevronRight className="justify-end" />
-                  </div>
+                  </Link>
                   <div
                     onClick={() => console.log(uData)}
                     className="w-full py-2 inline-flex items-center justify-between gap-3"

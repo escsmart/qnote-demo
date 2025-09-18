@@ -110,6 +110,7 @@ const profilePage = () => {
                       onClick={() => document.getElementById("myFile").click()}
                     />
                   </span>
+                  {/* {config.apiServer + "/images/" + userData.profileImage} */}
                   <div className="mask mask-squircle w-24">
                     <img
                       src={
@@ -129,6 +130,7 @@ const profilePage = () => {
                     onChange={(e) => handleSelectedFile(e)}
                     id="myFile"
                   />
+                  {/* 
                   <label className="input floating-label w-full border-[1px] rounded-xl h-12 my-4 bg-white">
                     <Icon.PersonCircle className="text-xl opacity-55" />
                     <span>NAME</span>
@@ -143,7 +145,7 @@ const profilePage = () => {
                     />
                     <div className="text-slate-400 text-xs">(required)</div>
                   </label>
-
+                  
                   <label className="input floating-label w-full border-[1px] rounded-xl h-12 mb-4 bg-white">
                     <Icon.Phone className="text-xl opacity-70" />
                     <span>PHONE</span>
@@ -172,7 +174,25 @@ const profilePage = () => {
                       placeholder="E-mail"
                     />
                     <div className="text-slate-400 text-xs">(required)</div>
-                  </label>
+                  </label> */}
+
+                  <ul className="text-sm my-4">
+                    <li className="flex items-center justify-between gap-3">
+                      <Icon.PersonCircle className="w-6" />
+                      <div className="flex-1">{userData.name}</div>
+                      <Icon.ChevronRight />
+                    </li>
+                    <li className="flex items-center justify-between gap-3 border-t-[1px] border-gray-300 pt-3 mt-3">
+                      <Icon.Phone className="w-6" />
+                      <div className="flex-1">{userData.phone}</div>
+                      <Icon.ChevronRight />
+                    </li>
+                    <li className="flex items-center justify-between gap-3 border-t-[1px] border-gray-300 pt-3 mt-3">
+                      <Icon.At className="text-[1rem] w-6" />
+                      <div className="flex-1">{userData.email}</div>
+                      <Icon.ChevronRight />
+                    </li>
+                  </ul>
                 </div>
                 <button
                   onClick={handleSaveUpdate}
