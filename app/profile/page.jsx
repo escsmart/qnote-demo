@@ -94,7 +94,47 @@ const profilePage = () => {
           {pageOnLoad ? (
             <section className="min-h-screen px-4 pt-10 pb-18 mb-10">
               <div className="flex flex-col items-center bg-white mt-2 p-4 py-6 rounded-3xl">
-                <div className="avatar indicator justify-center w-full relative">
+                <div className="w-full flex items-start justify-between">
+                  <div className="avatar indicator">
+                    <span className="indicator-item indicator-bottom indicator-center indicator-end badge py-4">
+                      <Icon.CameraFill
+                        className="text-2xl"
+                        onClick={() =>
+                          document.getElementById("myFile").click()
+                        }
+                      />
+                    </span>
+                    <div className="mask mask-squircle w-28">
+                      <img
+                        src={
+                          config.apiServer + "/images/" + userData.profileImage
+                        }
+                        alt=""
+                        width={50}
+                      />
+                    </div>
+                  </div>
+                  <div className="join">
+                    <button
+                      onClick={() => {
+                        document.getElementById("modalEditData").showModal();
+                      }}
+                      className="btn btn-sm btn-info join-item px-2"
+                    >
+                      <Icon.PencilFill className="text-[1.25em]" /> ข้อมูล
+                    </button>
+                    <button
+                      onClick={() => {
+                        document.getElementById("modalChangePwd").showModal();
+                      }}
+                      className="btn btn-sm btn-info join-item px-2"
+                    >
+                      <Icon.KeyFill className="rotate-135 text-xl" /> รหัส
+                    </button>
+                  </div>
+                </div>
+
+                {/* <div className="avatar indicator justify-start bg-error w-full relative">
                   <button
                     onClick={() => {
                       document.getElementById("modalChangePwd").showModal();
@@ -110,7 +150,6 @@ const profilePage = () => {
                       onClick={() => document.getElementById("myFile").click()}
                     />
                   </span>
-                  {/* {config.apiServer + "/images/" + userData.profileImage} */}
                   <div className="mask mask-squircle w-24">
                     <img
                       src={
@@ -120,7 +159,7 @@ const profilePage = () => {
                       width={50}
                     />
                   </div>
-                </div>
+                </div> */}
 
                 {/* // form */}
                 <div className="w-full my-5">
@@ -176,30 +215,27 @@ const profilePage = () => {
                     <div className="text-slate-400 text-xs">(required)</div>
                   </label> */}
 
-                  <ul className="text-sm my-4">
+                  <ul className="text-sm mt-4">
                     <li className="flex items-center justify-between gap-3">
                       <Icon.PersonCircle className="w-6" />
                       <div className="flex-1">{userData.name}</div>
-                      <Icon.ChevronRight />
                     </li>
                     <li className="flex items-center justify-between gap-3 border-t-[1px] border-gray-300 pt-3 mt-3">
                       <Icon.Phone className="w-6" />
                       <div className="flex-1">{userData.phone}</div>
-                      <Icon.ChevronRight />
                     </li>
                     <li className="flex items-center justify-between gap-3 border-t-[1px] border-gray-300 pt-3 mt-3">
                       <Icon.At className="text-[1rem] w-6" />
                       <div className="flex-1">{userData.email}</div>
-                      <Icon.ChevronRight />
                     </li>
                   </ul>
                 </div>
-                <button
+                {/* <button
                   onClick={handleSaveUpdate}
                   className="btn btn-block btn-info"
                 >
                   บันทึก
-                </button>
+                </button> */}
               </div>
 
               {/* // Social */}
@@ -273,6 +309,77 @@ const profilePage = () => {
             <form method="dialog">
               <button className="btn btn-block btn-info text-white">
                 อัพเดท
+              </button>
+            </form>
+          </div>
+        </div>
+        <form method="dialog" className="modal-backdrop">
+          <button>close</button>
+        </form>
+      </dialog>
+
+      {/* modalEditData */}
+      <dialog id="modalEditData" className="modal sm:modal-middle">
+        <div className="modal-box">
+          <form method="dialog">
+            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+              ✕
+            </button>
+          </form>
+          <h3 className="font-bold text-lg">แก้ไขรหัสผ่าน</h3>
+          <div className="py-5 flex flex-col gap-3">
+            <label className="input floating-label w-full border-[1px] rounded-xl h-12 my-2 bg-white">
+              <Icon.PersonCircle className="text-xl opacity-55" />
+              <span>NAME</span>
+              <input
+                value={userData.name}
+                onChange={(e) =>
+                  setUserData({ ...userData, name: e.target.value })
+                }
+                type="text"
+                className="grow border-0 focus:outline-0"
+                placeholder="Name"
+              />
+              <div className="text-slate-400 text-xs">(required)</div>
+            </label>
+
+            <label className="input floating-label w-full border-[1px] rounded-xl h-12 mb-2 bg-white">
+              <Icon.Phone className="text-xl opacity-70" />
+              <span>PHONE</span>
+              <input
+                value={userData.phone}
+                onChange={(e) =>
+                  setUserData({ ...userData, phone: e.target.value })
+                }
+                type="text"
+                className="grow border-0 focus:outline-0"
+                placeholder="Phone"
+              />
+              <div className="text-slate-400 text-xs">(required)</div>
+            </label>
+
+            <label className="input floating-label w-full border-[1px] rounded-xl h-12 bg-white">
+              <Icon.At className="text-xl opacity-70" />
+              <span>EMAIL</span>
+              <input
+                value={userData.email}
+                onChange={(e) =>
+                  setUserData({ ...userData, email: e.target.value })
+                }
+                type="text"
+                className="grow border-0 focus:outline-0"
+                placeholder="E-mail"
+              />
+              <div className="text-slate-400 text-xs">(required)</div>
+            </label>
+          </div>
+          <div className="w-full mt-2">
+            <form method="dialog">
+              <button
+                onClick={handleSaveUpdate}
+                className="btn btn-block btn-info text-white"
+              >
+                บันทึก
               </button>
             </form>
           </div>
