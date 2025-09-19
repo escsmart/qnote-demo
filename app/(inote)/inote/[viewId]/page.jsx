@@ -15,17 +15,24 @@ const viewNotePage = () => {
   const [pageOnLoad, setPageOnLoad] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [btnComplete, setBtnComplete] = useState(true);
-  const [noteTitle, setNoteTitle] = useState("โน๊ต");
   const [noteList, setNoteList] = useState([]);
   const [countList, setCountList] = useState(0);
+  const [inote, setInote] = useState({
+    title: "",
+    isHistory: false,
+    sharedUsers: "",
+  });
+
+  const [friends, setFriend] = useState([]);
+  const [shareds, setShared] = useState([]);
 
   const fetchData = async () => {
     await axios
       .get(config.apiServer + "/inote/view-list/" + viewId)
       .then((res) => {
         if (res.data.message === "success") {
+          setInote(res.data.inote);
           setCountList(res.data.count);
-          setNoteTitle(`โน๊ต : ${res.data.title}`);
           let dataList = [];
           let dataComplete = [];
           for (let i = 0; i < res.data.data.length; i++) {
@@ -43,6 +50,8 @@ const viewNotePage = () => {
           }
           const items = dataList.concat(dataComplete);
           setNoteList(items);
+          setFriend(res.data.friend.friendsList);
+          setShared(res.data.friend.sharedsList);
           setPageOnLoad(true);
         }
       });
@@ -80,7 +89,7 @@ const viewNotePage = () => {
   const handleEditTitle = async () => {
     const payload = {
       id: viewId,
-      title: noteTitle,
+      title: inote.title,
     };
     await axios
       .put(config.apiServer + "/inote/editTitle", payload)
@@ -167,6 +176,21 @@ const viewNotePage = () => {
     }
   };
 
+  // setHistory
+  const handleTogleHistory = async () => {
+    const payload = {
+      id: inote.id,
+      history: !inote.isHistory,
+    };
+    await axios
+      .put(config.apiServer + "/inote/togle-history", payload)
+      .then((res) => {
+        if (res.data.message === "success") {
+          setInote(res.data.result);
+        }
+      });
+  };
+
   // Scrool To Refresh
   const onScroll = useCallback((event) => {
     if (window.scrollY < -50) {
@@ -186,7 +210,7 @@ const viewNotePage = () => {
   }, []);
   return (
     <>
-      <Template title={noteTitle}>
+      <Template title={inote.title}>
         <div className="min-h-screen w-full bg-base-200">
           <div className={`h-8 flex items-center justify-center`}>
             <span
@@ -199,46 +223,81 @@ const viewNotePage = () => {
             <section className="min-h-screen px-4 pt-10 pb-18 mb-10">
               <div className="flex items-center justify-between">
                 <div className="join">
+                  <div className="dropdown dropdown-start join-item">
+                    <div
+                      tabIndex={0}
+                      role="button"
+                      className="btn btn-info join-item"
+                    >
+                      <Icon.GearFill />
+                    </div>
+                    <ul
+                      tabIndex={0}
+                      className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 mt-2 shadow-sm"
+                    >
+                      <li
+                        onClick={() =>
+                          document
+                            .getElementById("modalEditTitleNote")
+                            .showModal()
+                        }
+                      >
+                        <a>แก้ไขชื่อหัวข้อ</a>
+                      </li>
+                      <li onClick={(e) => handleComfirm("delete", inote.title)}>
+                        <a>ลบโน๊ตนี้</a>
+                      </li>
+                    </ul>
+                  </div>
                   <button
                     onClick={() => handleComplete("all", "")}
                     className={`btn btn-info join-item ${
                       btnComplete ? null : "btn-disabled"
                     }`}
                   >
-                    เสร็จทั้งหมด
+                    <Icon.CheckLg className="text-xl" />
                   </button>
                   <button className="btn btn-info join-item">
-                    <Icon.Star />
+                    <Icon.ShareFill />
                   </button>
-                  <button className="btn btn-info join-item">
-                    <Icon.Share />
+                  <button
+                    onClick={handleTogleHistory}
+                    className="btn btn-info join-item"
+                  >
+                    {inote.isHistory ? (
+                      <Icon.StarFill className="text-warning" />
+                    ) : (
+                      <Icon.Star />
+                    )}
                   </button>
                 </div>
-                <div className="dropdown dropdown-end">
-                  <div
-                    tabIndex={0}
-                    role="button"
-                    className="btn btn-info btn-circle m-1"
-                  >
-                    <Icon.GearFill />
+
+                {/* // Friend Shared */}
+                <div className="avatar-group -space-x-6">
+                  <div className="avatar">
+                    <div className="w-10">
+                      <img
+                        src={
+                          config.apiServer + "/images/" + config.uData("uPic")
+                        }
+                      />
+                    </div>
                   </div>
-                  <ul
-                    tabIndex={0}
-                    className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm"
-                  >
-                    <li
-                      onClick={() =>
-                        document
-                          .getElementById("modalEditTitleNote")
-                          .showModal()
-                      }
-                    >
-                      <a>แก้ไขชื่อหัวข้อ</a>
-                    </li>
-                    <li onClick={(e) => handleComfirm("delete", noteTitle)}>
-                      <a>ลบโน๊ตนี้</a>
-                    </li>
-                  </ul>
+                  {shareds.length > 0
+                    ? shareds.map((item, index) => (
+                        <div key={index} className="avatar">
+                          <div className="w-10">
+                            <img
+                              src={
+                                config.apiServer +
+                                "/images/" +
+                                item.profileImage
+                              }
+                            />
+                          </div>
+                        </div>
+                      ))
+                    : null}
                 </div>
               </div>
               <div className="card max-h-[70vh] overflow-hidden mt-4">
@@ -270,14 +329,12 @@ const viewNotePage = () => {
                               {item.text}
                             </td>
                             <td className="w-12 p-0 text-center">
-                              {/* <div className="flex gap-1.5"> */}
                               <button
                                 onClick={(e) => handleComfirm("remove", item)}
                                 className="btn btn-circle btn-xs"
                               >
                                 <Icon.Trash3 />
                               </button>
-                              {/* </div> */}
                             </td>
                           </tr>
                         ))
@@ -300,6 +357,28 @@ const viewNotePage = () => {
                 >
                   <Icon.PlusCircle className="text-xl" /> เพิ่มรายการ
                 </button>
+              </div>
+
+              <div className="card bg-warning p-4 my-4">
+                <div className="card-title">เพื่อนทั้งหมด</div>
+                <ul>
+                  {friends.length > 0
+                    ? friends.map((item, index) => (
+                        <li key={index}>{item.name}</li>
+                      ))
+                    : null}
+                </ul>
+              </div>
+
+              <div className="card bg-primary p-4 my-4">
+                <div className="card-title">เพื่อนที่แชร์โน๊ตนี้</div>
+                <ul>
+                  {shareds.length > 0
+                    ? shareds.map((item, index) => (
+                        <li key={index}>{item.name}</li>
+                      ))
+                    : null}
+                </ul>
               </div>
             </section>
           ) : (
@@ -354,8 +433,8 @@ const viewNotePage = () => {
           <h3 className="font-bold text-lg">ป้อนหัวข้อสำหรับ Note นี้</h3>
           <p className="py-4">
             <input
-              value={noteTitle}
-              onChange={(e) => setNoteTitle(e.target.value)}
+              value={inote.title}
+              onChange={(e) => setInote({ ...inote, title: e.target.value })}
               type="text"
               className="input w-full focus:outline-0"
               placeholder="Enter Note Title"
@@ -366,7 +445,7 @@ const viewNotePage = () => {
               <button
                 onClick={() => handleComfirm("editTitleNote", "")}
                 className={`btn btn-block ${
-                  noteTitle !== "" ? null : "btn-disabled"
+                  inote.title !== "" ? null : "btn-disabled"
                 } btn-success text-white`}
               >
                 บันทึก
