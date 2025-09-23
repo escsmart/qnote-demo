@@ -1,5 +1,6 @@
 "use client";
 import config from "@/app/config";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -101,6 +102,13 @@ const Sidebar = ({ secure }) => {
                 <div className="avatar">
                   <div className="mask mask-squircle w-14">
                     <img src={config.apiServer + "/images/" + uData.uPic} />
+                    <Image
+                      src={config.apiServer + "/images/" + uData.uPic}
+                      width={14}
+                      height={14}
+                      alt={uData.uName}
+                      priority
+                    />
                   </div>
                 </div>
                 <div className="flex-1">

@@ -9,6 +9,7 @@ import { useCallback, useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import PageLoading from "@/components/PageLoading";
 import MenuBottom from "@/components/MenuBottom";
+import Image from "next/image";
 
 const viewNotePage = () => {
   const router = useRouter();
@@ -210,11 +211,14 @@ const viewNotePage = () => {
                     <Icon.PencilFill />
                   </span>
                   <div className="mask mask-squircle w-10">
-                    <img
-                      alt="Tailwind CSS examples"
+                    <Image
                       src={
                         config.apiServer + "/images/" + inote.user.profileImage
                       }
+                      width={20}
+                      height={20}
+                      alt={inote.user.name}
+                      priority
                     />
                   </div>
                 </div>
@@ -226,12 +230,16 @@ const viewNotePage = () => {
                       ? shareds.map((item, index) => (
                           <div key={index} className="avatar">
                             <div className="w-10">
-                              <img
+                              <Image
                                 src={
                                   config.apiServer +
                                   "/images/" +
                                   item.profileImage
                                 }
+                                width={10}
+                                height={10}
+                                alt={item.name}
+                                priority
                               />
                             </div>
                           </div>
