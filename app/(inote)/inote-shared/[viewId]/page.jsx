@@ -297,7 +297,13 @@ const viewNotePage = () => {
                             <td className="w-8 p-0 text-center">
                               <div className="avatar">
                                 <div className="ring-warning ring-offset-base-100 w-5 rounded-full ring-1 ring-offset-1">
-                                  <img src="https://img.daisyui.com/images/profile/demo/spiderperson@192.webp" />
+                                  <Image
+                                    src="https://img.daisyui.com/images/profile/demo/spiderperson@192.webp"
+                                    width={10}
+                                    height={10}
+                                    alt="writer"
+                                    priority
+                                  />
                                 </div>
                               </div>
                             </td>

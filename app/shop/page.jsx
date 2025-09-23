@@ -1,5 +1,6 @@
 import MenuBottom from "@/components/MenuBottom";
 import Template from "@/components/Template";
+import Image from "next/image";
 
 const shopPage = () => {
   return (
@@ -11,7 +12,12 @@ const shopPage = () => {
               <div className="text-secondary">
                 <div className="avatar avatar-online">
                   <div className="w-16 rounded-full">
-                    <img src="https://img.daisyui.com/images/profile/demo/anakeen@192.webp" />
+                    <Image
+                      src="https://img.daisyui.com/images/profile/demo/anakeen@192.webp"
+                      width={16}
+                      height={16}
+                      priority
+                    />
                   </div>
                 </div>
               </div>

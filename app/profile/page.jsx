@@ -6,6 +6,7 @@ import Template from "@/components/Template";
 import MenuBottom from "@/components/MenuBottom";
 import PageLoading from "@/components/PageLoading";
 import * as Icon from "react-bootstrap-icons";
+import Image from "next/image";
 
 const profilePage = () => {
   const [pageOnLoad, setPageOnLoad] = useState(false);
@@ -105,12 +106,14 @@ const profilePage = () => {
                       />
                     </span>
                     <div className="mask mask-squircle w-28">
-                      <img
+                      <Image
                         src={
                           config.apiServer + "/images/" + userData.profileImage
                         }
-                        alt=""
                         width={50}
+                        height={50}
+                        alt={inote.user.name}
+                        priority
                       />
                     </div>
                   </div>
@@ -134,33 +137,6 @@ const profilePage = () => {
                   </div>
                 </div>
 
-                {/* <div className="avatar indicator justify-start bg-error w-full relative">
-                  <button
-                    onClick={() => {
-                      document.getElementById("modalChangePwd").showModal();
-                    }}
-                    className="btn btn-sm btn-info absolute right-0"
-                  >
-                    <Icon.KeyFill className="rotate-135 text-xl" />
-                    รหัสผ่าน
-                  </button>
-                  <span className="indicator-item indicator-bottom indicator-center badge py-4">
-                    <Icon.CameraFill
-                      className="text-2xl"
-                      onClick={() => document.getElementById("myFile").click()}
-                    />
-                  </span>
-                  <div className="mask mask-squircle w-24">
-                    <img
-                      src={
-                        config.apiServer + "/images/" + userData.profileImage
-                      }
-                      alt=""
-                      width={50}
-                    />
-                  </div>
-                </div> */}
-
                 {/* // form */}
                 <div className="w-full my-5">
                   <input
@@ -169,51 +145,6 @@ const profilePage = () => {
                     onChange={(e) => handleSelectedFile(e)}
                     id="myFile"
                   />
-                  {/* 
-                  <label className="input floating-label w-full border-[1px] rounded-xl h-12 my-4 bg-white">
-                    <Icon.PersonCircle className="text-xl opacity-55" />
-                    <span>NAME</span>
-                    <input
-                      value={userData.name}
-                      onChange={(e) =>
-                        setUserData({ ...userData, name: e.target.value })
-                      }
-                      type="text"
-                      className="grow border-0 focus:outline-0"
-                      placeholder="Name"
-                    />
-                    <div className="text-slate-400 text-xs">(required)</div>
-                  </label>
-                  
-                  <label className="input floating-label w-full border-[1px] rounded-xl h-12 mb-4 bg-white">
-                    <Icon.Phone className="text-xl opacity-70" />
-                    <span>PHONE</span>
-                    <input
-                      value={userData.phone}
-                      onChange={(e) =>
-                        setUserData({ ...userData, phone: e.target.value })
-                      }
-                      type="text"
-                      className="grow border-0 focus:outline-0"
-                      placeholder="Phone"
-                    />
-                    <div className="text-slate-400 text-xs">(required)</div>
-                  </label>
-
-                  <label className="input floating-label w-full border-[1px] rounded-xl h-12 mb-4 bg-white">
-                    <Icon.At className="text-xl opacity-70" />
-                    <span>EMAIL</span>
-                    <input
-                      value={userData.email}
-                      onChange={(e) =>
-                        setUserData({ ...userData, email: e.target.value })
-                      }
-                      type="text"
-                      className="grow border-0 focus:outline-0"
-                      placeholder="E-mail"
-                    />
-                    <div className="text-slate-400 text-xs">(required)</div>
-                  </label> */}
 
                   <ul className="text-sm mt-4">
                     <li className="flex items-center justify-between gap-3">

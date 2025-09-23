@@ -78,9 +78,14 @@ const Sidebar = ({ secure }) => {
               {/* // card figure */}
               <div className="card image-full w-full shadow-sm rounded-3xl">
                 <figure>
-                  <img
-                    src="https://t4.ftcdn.net/jpg/02/42/94/05/360_F_242940510_FxVXYUrB36u3YBbWsWFtbX4DyRymFOqL.jpg"
-                    alt="Shoes"
+                  <Image
+                    src={
+                      "https://t4.ftcdn.net/jpg/02/42/94/05/360_F_242940510_FxVXYUrB36u3YBbWsWFtbX4DyRymFOqL.jpg"
+                    }
+                    width={300}
+                    height={200}
+                    alt={"Shoes"}
+                    priority
                   />
                 </figure>
                 <div className="card-body flex flex-col justify-between p-4">
@@ -101,7 +106,6 @@ const Sidebar = ({ secure }) => {
               <div className="bg-white my-4 rounded-3xl p-2 flex items-center justify-between gap-3 relative">
                 <div className="avatar">
                   <div className="mask mask-squircle w-14">
-                    <img src={config.apiServer + "/images/" + uData.uPic} />
                     <Image
                       src={config.apiServer + "/images/" + uData.uPic}
                       width={14}

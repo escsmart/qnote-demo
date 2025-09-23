@@ -9,6 +9,7 @@ import { useCallback, useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import PageLoading from "@/components/PageLoading";
 import MenuBottom from "@/components/MenuBottom";
+import Image from "next/image";
 
 const viewNotePage = () => {
   const router = useRouter();
@@ -22,6 +23,10 @@ const viewNotePage = () => {
     title: "",
     isHistory: false,
     sharedUsers: "",
+    user: {
+      name: "",
+      profileImage: "",
+    },
   });
 
   const [friends, setFriend] = useState([]);
@@ -315,10 +320,14 @@ const viewNotePage = () => {
                   <div tabIndex={0} className="avatar-group -space-x-6">
                     <div className="avatar">
                       <div className="w-10">
-                        <img
+                        <Image
                           src={
                             config.apiServer + "/images/" + config.uData("uPic")
                           }
+                          width={12}
+                          height={12}
+                          alt="host"
+                          priority
                         />
                       </div>
                     </div>
@@ -326,12 +335,16 @@ const viewNotePage = () => {
                       ? shareds.map((item, index) => (
                           <div key={index} className="avatar">
                             <div className="w-10">
-                              <img
+                              <Image
                                 src={
                                   config.apiServer +
                                   "/images/" +
                                   item.profileImage
                                 }
+                                width={12}
+                                height={12}
+                                alt={item.name}
+                                priority
                               />
                             </div>
                           </div>
@@ -510,9 +523,13 @@ const viewNotePage = () => {
               ? friends.map((item, index) => (
                   <li key={index} className="list-row items-center px-0">
                     <div>
-                      <img
-                        className="size-10 rounded-box"
+                      <Image
                         src={config.apiServer + "/images/" + item.profileImage}
+                        width={20}
+                        height={20}
+                        alt={item.name}
+                        priority
+                        className="size-10 rounded-box"
                       />
                     </div>
                     <div>{item.name}</div>
