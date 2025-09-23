@@ -2,6 +2,7 @@
 import config from "@/app/config";
 import MenuBottom from "@/components/MenuBottom";
 import PageLoading from "@/components/PageLoading";
+import RenewToken from "@/components/RenewToken";
 import Template from "@/components/Template";
 import axios from "axios";
 import moment from "moment";
@@ -24,9 +25,16 @@ const inotePage = () => {
           setNotes(res.data.data);
           setLoadSuccess(true);
           setPageOnLoad(true);
+        } else if (res.data.message === "Tokens Invalid") {
+          const renewToken = RenewToken();
+          if (renewToken.message == "success") {
+            window.location.reload();
+          }
         }
       });
   };
+
+  useEffect(() => {}, []);
 
   // Scrool To Refresh
   const onScroll = useCallback((event) => {

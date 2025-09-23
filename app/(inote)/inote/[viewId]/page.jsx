@@ -8,6 +8,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import PageLoading from "@/components/PageLoading";
+import MenuBottom from "@/components/MenuBottom";
 
 const viewNotePage = () => {
   const router = useRouter();
@@ -201,6 +202,36 @@ const viewNotePage = () => {
     }
   }, []);
 
+  // แชร์
+  const handleShared = async (item) => {
+    const payload = {
+      noteId: parseInt(viewId),
+      friendId: item.id,
+    };
+    await axios
+      .post(config.apiServer + "/inote/sharedtofriend", payload)
+      .then((res) => {
+        if (res.data.message === "success") {
+          fetchData();
+        }
+      });
+  };
+
+  // ยกเลิกแชร์
+  const handleUnShared = async (item) => {
+    const payload = {
+      noteId: parseInt(viewId),
+      friendId: item.id,
+    };
+    await axios
+      .post(config.apiServer + "/inote/unsharedtofriend", payload)
+      .then((res) => {
+        if (res.data.message === "success") {
+          fetchData();
+        }
+      });
+  };
+
   useEffect(() => {
     fetchData();
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -257,7 +288,12 @@ const viewNotePage = () => {
                   >
                     <Icon.CheckLg className="text-xl" />
                   </button>
-                  <button className="btn btn-info join-item">
+                  <button
+                    onClick={() => {
+                      document.getElementById("modalSelectShared").showModal();
+                    }}
+                    className="btn btn-info join-item"
+                  >
                     <Icon.ShareFill />
                   </button>
                   <button
@@ -273,34 +309,60 @@ const viewNotePage = () => {
                 </div>
 
                 {/* // Friend Shared */}
-                <div className="avatar-group -space-x-6">
-                  <div className="avatar">
-                    <div className="w-10">
-                      <img
-                        src={
-                          config.apiServer + "/images/" + config.uData("uPic")
-                        }
-                      />
+                <div className="dropdown dropdown-end">
+                  <div tabIndex={0} className="avatar-group -space-x-6">
+                    <div className="avatar">
+                      <div className="w-10">
+                        <img
+                          src={
+                            config.apiServer + "/images/" + config.uData("uPic")
+                          }
+                        />
+                      </div>
                     </div>
+                    {shareds.length > 0
+                      ? shareds.map((item, index) => (
+                          <div key={index} className="avatar">
+                            <div className="w-10">
+                              <img
+                                src={
+                                  config.apiServer +
+                                  "/images/" +
+                                  item.profileImage
+                                }
+                              />
+                            </div>
+                          </div>
+                        ))
+                      : null}
                   </div>
-                  {shareds.length > 0
-                    ? shareds.map((item, index) => (
-                        <div key={index} className="avatar">
-                          <div className="w-10">
-                            <img
-                              src={
-                                config.apiServer +
-                                "/images/" +
-                                item.profileImage
-                              }
+
+                  <div
+                    tabIndex={0}
+                    className="dropdown-content menu bg-white rounded-box z-1 w-52 shadow-sm"
+                  >
+                    <div className="flex flex-col items-center justify-around">
+                      {shareds.length > 0 ? (
+                        shareds.map((item, index) => (
+                          <div
+                            key={index}
+                            className="w-full inline-flex items-center p-2"
+                          >
+                            <div className="flex-1">{item.name}</div>
+                            <Icon.Trash3
+                              onClick={() => handleUnShared(item)}
+                              className="justify-end"
                             />
                           </div>
-                        </div>
-                      ))
-                    : null}
+                        ))
+                      ) : (
+                        <>โน๊ตนี้ยังไม่ถูกแชร์</>
+                      )}
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div className="card max-h-[70vh] overflow-hidden mt-4">
+              <div className="card max-h-[62vh] overflow-hidden mt-4">
                 <div className="overflow-y-auto bg-white rounded-box shadow-md">
                   <table className="table">
                     <tbody>
@@ -358,34 +420,13 @@ const viewNotePage = () => {
                   <Icon.PlusCircle className="text-xl" /> เพิ่มรายการ
                 </button>
               </div>
-
-              <div className="card bg-warning p-4 my-4">
-                <div className="card-title">เพื่อนทั้งหมด</div>
-                <ul>
-                  {friends.length > 0
-                    ? friends.map((item, index) => (
-                        <li key={index}>{item.name}</li>
-                      ))
-                    : null}
-                </ul>
-              </div>
-
-              <div className="card bg-primary p-4 my-4">
-                <div className="card-title">เพื่อนที่แชร์โน๊ตนี้</div>
-                <ul>
-                  {shareds.length > 0
-                    ? shareds.map((item, index) => (
-                        <li key={index}>{item.name}</li>
-                      ))
-                    : null}
-                </ul>
-              </div>
             </section>
           ) : (
             <PageLoading />
           )}
         </div>
       </Template>
+      <MenuBottom />
 
       {/* ModalAddNote */}
       <dialog id="modalAddNote" className="modal modal-top sm:modal-middle">
@@ -452,6 +493,39 @@ const viewNotePage = () => {
               </button>
             </form>
           </div>
+        </div>
+        <form method="dialog" className="modal-backdrop">
+          <button>close</button>
+        </form>
+      </dialog>
+
+      {/* //Modal Select Shared */}
+      <dialog id="modalSelectShared" className="modal sm:modal-middle">
+        <div className="modal-box">
+          <h3 className="font-bold text-lg">เลือกเพื่อนที่ต้องการแชร์</h3>
+          <ul className="list p-0">
+            {friends.length > 0
+              ? friends.map((item, index) => (
+                  <li key={index} className="list-row items-center px-0">
+                    <div>
+                      <img
+                        className="size-10 rounded-box"
+                        src={config.apiServer + "/images/" + item.profileImage}
+                      />
+                    </div>
+                    <div>{item.name}</div>
+                    <form method="dialog">
+                      <button
+                        onClick={() => handleShared(item)}
+                        className="btn btn-square btn-ghost"
+                      >
+                        <Icon.ShareFill />
+                      </button>
+                    </form>
+                  </li>
+                ))
+              : null}
+          </ul>
         </div>
         <form method="dialog" className="modal-backdrop">
           <button>close</button>
