@@ -174,7 +174,7 @@ const Sidebar = ({ secure }) => {
                     <Icon.ChevronRight className="justify-end" />
                   </Link>
                   <Link
-                    href={"/inote"}
+                    href={"/sharedtome"}
                     className="w-full py-2 inline-flex items-center justify-between gap-3"
                   >
                     <button className="btn btn-sm btn-circle bg-pink-800 border-0">

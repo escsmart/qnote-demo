@@ -15,7 +15,6 @@ const viewNotePage = () => {
   const { viewId } = useParams();
   const [pageOnLoad, setPageOnLoad] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [btnComplete, setBtnComplete] = useState(true);
   const [noteList, setNoteList] = useState([]);
   const [countList, setCountList] = useState(0);
   const [inote, setInote] = useState({
@@ -24,12 +23,14 @@ const viewNotePage = () => {
     sharedUsers: "",
   });
 
-  const [friends, setFriend] = useState([]);
   const [shareds, setShared] = useState([]);
 
   const fetchData = async () => {
     await axios
-      .get(config.apiServer + "/inote/view-list/" + viewId, config.headerAuth())
+      .get(
+        config.apiServer + "/inote/viewshared-list/" + viewId,
+        config.headerAuth()
+      )
       .then((res) => {
         if (res.data.message === "success") {
           setInote(res.data.inote);
@@ -44,15 +45,9 @@ const viewNotePage = () => {
               dataList.unshift(item);
             }
           }
-          if (res.data.count == dataComplete.length) {
-            setBtnComplete(false);
-          } else if (res.data.count !== dataComplete.length) {
-            setBtnComplete(true);
-          }
           const items = dataList.concat(dataComplete);
           setNoteList(items);
-          setFriend(res.data.friend.friendsList);
-          setShared(res.data.friend.sharedsList);
+          setShared(res.data.sharedList);
           setPageOnLoad(true);
         } else {
           router.push("/inote");
@@ -179,21 +174,6 @@ const viewNotePage = () => {
     }
   };
 
-  // setHistory
-  const handleTogleHistory = async () => {
-    const payload = {
-      id: inote.id,
-      history: !inote.isHistory,
-    };
-    await axios
-      .put(config.apiServer + "/inote/togle-history", payload)
-      .then((res) => {
-        if (res.data.message === "success") {
-          setInote(res.data.result);
-        }
-      });
-  };
-
   // Scrool To Refresh
   const onScroll = useCallback((event) => {
     if (window.scrollY < -50) {
@@ -203,36 +183,6 @@ const viewNotePage = () => {
       setIsLoading(false);
     }
   }, []);
-
-  // แชร์
-  const handleShared = async (item) => {
-    const payload = {
-      noteId: parseInt(viewId),
-      friendId: item.id,
-    };
-    await axios
-      .post(config.apiServer + "/inote/sharedtofriend", payload)
-      .then((res) => {
-        if (res.data.message === "success") {
-          fetchData();
-        }
-      });
-  };
-
-  // ยกเลิกแชร์
-  const handleUnShared = async (item) => {
-    const payload = {
-      noteId: parseInt(viewId),
-      friendId: item.id,
-    };
-    await axios
-      .post(config.apiServer + "/inote/unsharedtofriend", payload)
-      .then((res) => {
-        if (res.data.message === "success") {
-          fetchData();
-        }
-      });
-  };
 
   useEffect(() => {
     fetchData();
@@ -255,73 +205,23 @@ const viewNotePage = () => {
           {pageOnLoad ? (
             <section className="min-h-screen px-4 pt-10 pb-18 mb-10">
               <div className="flex items-center justify-between">
-                <div className="join">
-                  <div className="dropdown dropdown-start join-item">
-                    <div
-                      tabIndex={0}
-                      role="button"
-                      className="btn btn-info join-item"
-                    >
-                      <Icon.GearFill />
-                    </div>
-                    <ul
-                      tabIndex={0}
-                      className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 mt-2 shadow-sm"
-                    >
-                      <li
-                        onClick={() =>
-                          document
-                            .getElementById("modalEditTitleNote")
-                            .showModal()
-                        }
-                      >
-                        <a>แก้ไขชื่อหัวข้อ</a>
-                      </li>
-                      <li onClick={(e) => handleComfirm("delete", inote.title)}>
-                        <a>ลบโน๊ตนี้</a>
-                      </li>
-                    </ul>
+                <div className="avatar indicator">
+                  <span className="indicator-item badge badge-info text-white px-1">
+                    <Icon.PencilFill />
+                  </span>
+                  <div className="mask mask-squircle w-10">
+                    <img
+                      alt="Tailwind CSS examples"
+                      src={
+                        config.apiServer + "/images/" + inote.user.profileImage
+                      }
+                    />
                   </div>
-                  <button
-                    onClick={() => handleComplete("all", "")}
-                    className={`btn btn-info join-item ${
-                      btnComplete ? null : "btn-disabled"
-                    }`}
-                  >
-                    <Icon.CheckLg className="text-xl" />
-                  </button>
-                  <button
-                    onClick={() => {
-                      document.getElementById("modalSelectShared").showModal();
-                    }}
-                    className="btn btn-info join-item"
-                  >
-                    <Icon.ShareFill />
-                  </button>
-                  <button
-                    onClick={handleTogleHistory}
-                    className="btn btn-info join-item"
-                  >
-                    {inote.isHistory ? (
-                      <Icon.StarFill className="text-warning" />
-                    ) : (
-                      <Icon.Star />
-                    )}
-                  </button>
                 </div>
 
                 {/* // Friend Shared */}
                 <div className="dropdown dropdown-end">
                   <div tabIndex={0} className="avatar-group -space-x-6">
-                    <div className="avatar">
-                      <div className="w-10">
-                        <img
-                          src={
-                            config.apiServer + "/images/" + config.uData("uPic")
-                          }
-                        />
-                      </div>
-                    </div>
                     {shareds.length > 0
                       ? shareds.map((item, index) => (
                           <div key={index} className="avatar">
@@ -344,22 +244,16 @@ const viewNotePage = () => {
                     className="dropdown-content menu bg-white rounded-box z-1 w-52 shadow-sm"
                   >
                     <div className="flex flex-col items-center justify-around">
-                      {shareds.length > 0 ? (
-                        shareds.map((item, index) => (
-                          <div
-                            key={index}
-                            className="w-full inline-flex items-center p-2"
-                          >
-                            <div className="flex-1">{item.name}</div>
-                            <Icon.Trash3
-                              onClick={() => handleUnShared(item)}
-                              className="justify-end"
-                            />
-                          </div>
-                        ))
-                      ) : (
-                        <>โน๊ตนี้ยังไม่ถูกแชร์</>
-                      )}
+                      {shareds.length > 0
+                        ? shareds.map((item, index) => (
+                            <div
+                              key={index}
+                              className="w-full inline-flex items-center p-2"
+                            >
+                              <div className="flex-1">{item.name}</div>
+                            </div>
+                          ))
+                        : null}
                     </div>
                   </div>
                 </div>
@@ -392,7 +286,14 @@ const viewNotePage = () => {
                             >
                               {item.text}
                             </td>
-                            <td className="w-12 p-0 text-center">
+                            <td className="w-8 p-0 text-center">
+                              <div className="avatar">
+                                <div className="ring-warning ring-offset-base-100 w-5 rounded-full ring-1 ring-offset-1">
+                                  <img src="https://img.daisyui.com/images/profile/demo/spiderperson@192.webp" />
+                                </div>
+                              </div>
+                            </td>
+                            <td className="w-8 p-0 text-center">
                               <button
                                 onClick={(e) => handleComfirm("remove", item)}
                                 className="btn btn-circle btn-xs"
@@ -495,39 +396,6 @@ const viewNotePage = () => {
               </button>
             </form>
           </div>
-        </div>
-        <form method="dialog" className="modal-backdrop">
-          <button>close</button>
-        </form>
-      </dialog>
-
-      {/* //Modal Select Shared */}
-      <dialog id="modalSelectShared" className="modal sm:modal-middle">
-        <div className="modal-box">
-          <h3 className="font-bold text-lg">เลือกเพื่อนที่ต้องการแชร์</h3>
-          <ul className="list p-0">
-            {friends.length > 0
-              ? friends.map((item, index) => (
-                  <li key={index} className="list-row items-center px-0">
-                    <div>
-                      <img
-                        className="size-10 rounded-box"
-                        src={config.apiServer + "/images/" + item.profileImage}
-                      />
-                    </div>
-                    <div>{item.name}</div>
-                    <form method="dialog">
-                      <button
-                        onClick={() => handleShared(item)}
-                        className="btn btn-square btn-ghost"
-                      >
-                        <Icon.ShareFill />
-                      </button>
-                    </form>
-                  </li>
-                ))
-              : null}
-          </ul>
         </div>
         <form method="dialog" className="modal-backdrop">
           <button>close</button>

@@ -1,35 +1,26 @@
 "use client";
+import axios from "axios";
+import { useCallback, useEffect, useState } from "react";
+import moment from "moment";
 import config from "@/app/config";
+import Template from "@/components/Template";
 import MenuBottom from "@/components/MenuBottom";
 import PageLoading from "@/components/PageLoading";
-import RenewToken from "@/components/RenewToken";
-import Template from "@/components/Template";
-import axios from "axios";
-import moment from "moment";
 import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
 import * as Icon from "react-bootstrap-icons";
 
-const inotePage = () => {
+const sharedToMePage = () => {
   const router = useRouter();
   const [pageOnLoad, setPageOnLoad] = useState(false);
-  const [loadSuccess, setLoadSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [notes, setNotes] = useState([]);
-
+  const [sharedList, setSharedList] = useState([]);
   const fetchData = async () => {
     await axios
-      .get(config.apiServer + "/inote/list", config.headerAuth())
+      .get(config.apiServer + "/inote/sharedtome", config.headerAuth())
       .then((res) => {
         if (res.data.message === "success") {
-          setNotes(res.data.data);
-          setLoadSuccess(true);
           setPageOnLoad(true);
-        } else if (res.data.message === "Tokens Invalid") {
-          const renewToken = RenewToken();
-          if (renewToken.message == "success") {
-            window.location.reload();
-          }
+          setSharedList(res.data.results);
         }
       });
   };
@@ -51,10 +42,9 @@ const inotePage = () => {
       window.removeEventListener("scroll", onScroll, { passive: true });
     };
   }, []);
-
   return (
     <>
-      <Template title={"รายการโน๊ต"}>
+      <Template title={"แชร์กับฉัน"}>
         <div className="min-h-screen w-full bg-base-200">
           <div className={`h-8 flex items-center justify-center`}>
             <span
@@ -67,40 +57,39 @@ const inotePage = () => {
             <section className="min-h-screen px-4 pt-10 pb-18 mb-10">
               <div className="overflow-x-auto rounded-box border border-base-content/5 bg-white mt-2">
                 <table className="table">
+                  <thead className="bg-neutral-800 text-base-100">
+                    <tr>
+                      <th>NOTE</th>
+                      <th>เจ้าของ</th>
+                    </tr>
+                  </thead>
                   <tbody>
-                    {loadSuccess ? (
-                      notes.length > 0 ? (
-                        notes
-                          .slice(0)
-                          .reverse()
-                          .map((item, index) => (
-                            <tr
-                              key={index}
-                              onClick={() => router.push("/inote/" + item.id)}
-                            >
-                              <td>{item.title}</td>
-                              <td className="text-neutral-400 text-xs w-10">
-                                {moment(item.createdAt).format("DD/MM/YYYY")}
-                              </td>
-                            </tr>
-                          ))
-                      ) : (
-                        <tr>
-                          <td colSpan={2} className="text-center p-4">
-                            <div className="inline-block">
-                              <Icon.InfoCircle className="text-2xl text-neutral-600" />
-                            </div>
-                            <p className="text-neutral-500">
-                              ไม่พบข้อมูล สร้างโน๊ตเลย
-                            </p>
-                          </td>
-                        </tr>
-                      )
+                    {sharedList.length > 0 ? (
+                      sharedList
+                        .slice(0)
+                        .reverse()
+                        .map((item, index) => (
+                          <tr
+                            key={index}
+                            onClick={() =>
+                              router.push("/inote-shared/" + item.id)
+                            }
+                          >
+                            <td>{item.title}</td>
+                            <td className="text-neutral-400 w-10">
+                              {item.user.name}
+                            </td>
+                          </tr>
+                        ))
                     ) : (
                       <tr>
                         <td colSpan={2} className="text-center p-4">
-                          <span className="loading loading-spinner text-info"></span>
-                          <p className="text-neutral-500 mt-2">Loading</p>
+                          <div className="inline-block">
+                            <Icon.InfoCircle className="text-2xl text-neutral-600" />
+                          </div>
+                          <p className="text-neutral-500">
+                            ไม่พบข้อมูล สร้างโน๊ตเลย
+                          </p>
                         </td>
                       </tr>
                     )}
@@ -121,8 +110,8 @@ const inotePage = () => {
           )}
         </div>
       </Template>
-      <MenuBottom secure={true} />
+      <MenuBottom />
     </>
   );
 };
-export default inotePage;
+export default sharedToMePage;
