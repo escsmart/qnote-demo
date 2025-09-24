@@ -189,8 +189,8 @@ const Sidebar = ({ secure }) => {
                     href={"/sharedtome"}
                     className="w-full py-2 inline-flex items-center justify-between gap-3"
                   >
-                    <button className="btn btn-sm btn-circle bg-pink-800 border-0">
-                      <Icon.PassFill className="text-white" />
+                    <button className="btn btn-sm btn-circle bg-amber-600 border-0">
+                      <Icon.ShareFill className="text-white" />
                     </button>
                     <h2 className="flex-1">แชร์กับฉัน</h2>
                     <Icon.ChevronRight className="justify-end" />

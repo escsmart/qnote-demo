@@ -7,6 +7,7 @@ import MenuBottom from "@/components/MenuBottom";
 import PageLoading from "@/components/PageLoading";
 import * as Icon from "react-bootstrap-icons";
 import Image from "next/image";
+import RenewToken from "@/components/RenewToken";
 
 const profilePage = () => {
   const [pageOnLoad, setPageOnLoad] = useState(false);
@@ -39,6 +40,11 @@ const profilePage = () => {
           }
           setUserData(dataResult);
           setPageOnLoad(true);
+        } else if (res.data.message === "Tokens Invalid") {
+          const renewToken = RenewToken();
+          if (renewToken.message == "success") {
+            window.location.reload();
+          }
         }
       });
   };
@@ -112,7 +118,7 @@ const profilePage = () => {
                         }
                         width={50}
                         height={50}
-                        alt={inote.user.name}
+                        alt={userData.name}
                         priority
                       />
                     </div>

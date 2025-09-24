@@ -8,6 +8,7 @@ import MenuBottom from "@/components/MenuBottom";
 import PageLoading from "@/components/PageLoading";
 import { useRouter } from "next/navigation";
 import * as Icon from "react-bootstrap-icons";
+import Image from "next/image";
 
 const sharedToMePage = () => {
   const router = useRouter();
@@ -77,7 +78,21 @@ const sharedToMePage = () => {
                           >
                             <td>{item.title}</td>
                             <td className="text-neutral-400 w-10">
-                              {item.user.name}
+                              <div className="avatar">
+                                <div className="ring-primary ring-offset-base-100 w-10 rounded-full ring-2 ring-offset-2">
+                                  <Image
+                                    src={
+                                      config.apiServer +
+                                      "/images/" +
+                                      item.user.profileImage
+                                    }
+                                    width={10}
+                                    height={10}
+                                    alt={item.user.name}
+                                    priority
+                                  />
+                                </div>
+                              </div>
                             </td>
                           </tr>
                         ))
