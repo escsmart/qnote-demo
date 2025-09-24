@@ -58,9 +58,9 @@ const sharedToMePage = () => {
             <section className="min-h-screen px-4 pt-10 pb-18 mb-10">
               <div className="overflow-x-auto rounded-box border border-base-content/5 bg-white mt-2">
                 <table className="table">
-                  <thead className="bg-neutral-800 text-base-100">
+                  <thead>
                     <tr>
-                      <th>NOTE</th>
+                      <th>รายการ</th>
                       <th>เจ้าของ</th>
                     </tr>
                   </thead>
@@ -77,9 +77,9 @@ const sharedToMePage = () => {
                             }
                           >
                             <td>{item.title}</td>
-                            <td className="text-neutral-400 w-10">
+                            <td className="text-neutral-400 w-8 text-center">
                               <div className="avatar">
-                                <div className="ring-primary ring-offset-base-100 w-10 rounded-full ring-2 ring-offset-2">
+                                <div className="ring-primary ring-offset-base-100 w-8 rounded-full ring-2 ring-offset-2">
                                   <Image
                                     src={
                                       config.apiServer +

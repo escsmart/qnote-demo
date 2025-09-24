@@ -73,64 +73,32 @@ const viewNotePage = () => {
       });
   };
 
-  // Delete This Note ALL
-  const handleRemoveNote = async () => {
-    await axios
-      .delete(config.apiServer + "/inote/delete-all/" + viewId)
-      .then((res) => {
-        if (res.data.message === "success") {
-          router.push("/inote");
-        }
-      });
-  };
-
-  // Edit Title
-  const handleEditTitle = async () => {
-    const payload = {
-      id: viewId,
-      title: inote.title,
-    };
-    await axios
-      .put(config.apiServer + "/inote/editTitle", payload)
-      .then((res) => {
-        if (res.data.message === "success") {
-          fetchData();
-        }
-      });
-  };
-
   // Confirm Alert
-  const handleComfirm = (type, item) => {
-    if (type == "remove") {
+  const handleComfirm = (item) => {
+    if (item.userId !== parseInt(config.uData("uId"))) {
+      Swal.fire({
+        text: "ไม่สามารถลบรายการ ที่ท่านไม่ได้สร้าง!",
+        icon: "warning",
+        showConfirmButton: true,
+        confirmButtonText: "OK",
+      });
+    } else {
       Swal.fire({
         text: `${
-          countList == 1 ? "หัวข้อโน๊ตจะถูกลบ เมื่อไม่มีรายการแล้ว" : ""
-        } ยืนยันลบรายการ ${item.text} ?`,
+          countList == 1
+            ? "หัวข้อโน๊ตจะถูกลบ เมื่อไม่มีรายการแล้ว ยืนยัน?"
+            : `ยืนยันลบรายการ ${item.text} ?`
+        }`,
         icon: "question",
-        showCancelButton: true,
-        cancelButtonText: "NO",
         showConfirmButton: true,
         confirmButtonText: "YES",
+        showCancelButton: true,
+        cancelButtonText: "NO",
       }).then((res) => {
         if (res.isConfirmed) {
           handleRemove(item.id);
         }
       });
-    } else if (type == "delete") {
-      Swal.fire({
-        text: `ลบโน๊ต ${item} ?`,
-        icon: "question",
-        showCancelButton: true,
-        cancelButtonText: "NO",
-        showConfirmButton: true,
-        confirmButtonText: "YES",
-      }).then((res) => {
-        if (res.isConfirmed) {
-          handleRemoveNote();
-        }
-      });
-    } else if (type == "editTitleNote") {
-      handleEditTitle();
     }
   };
 
@@ -142,7 +110,7 @@ const viewNotePage = () => {
 
   const handleSaveForm = async () => {
     await axios
-      .post(config.apiServer + "/inote/add-list", formData)
+      .post(config.apiServer + "/inote/add-list", formData, config.headerAuth())
       .then((res) => {
         if (res.data.message === "success") {
           setFormData({ ...formData, text: "" });
@@ -207,8 +175,8 @@ const viewNotePage = () => {
             <section className="min-h-screen px-4 pt-10 pb-18 mb-10">
               <div className="flex items-center justify-between">
                 <div className="avatar indicator">
-                  <span className="indicator-item badge badge-info text-white px-1">
-                    <Icon.PencilFill />
+                  <span className="indicator-item indicator-bottom badge badge-info text-xs text-white px-1">
+                    เจ้าของ
                   </span>
                   <div className="mask mask-squircle w-10">
                     <Image
@@ -294,26 +262,28 @@ const viewNotePage = () => {
                             >
                               {item.text}
                             </td>
-                            <td className="w-8 p-0 text-center">
-                              <div className="avatar">
-                                <div className="ring-warning ring-offset-base-100 w-5 rounded-full ring-1 ring-offset-1">
-                                  <Image
-                                    src="https://img.daisyui.com/images/profile/demo/spiderperson@192.webp"
-                                    width={10}
-                                    height={10}
-                                    alt="writer"
-                                    priority
-                                  />
+                            <td className="w-16 p-0">
+                              <div className="flex items-center justify-center gap-3">
+                                <div className="avatar">
+                                  <div className="w-5 mask mask-squircle">
+                                    <Image
+                                      src={
+                                        config.apiServer +
+                                        "/images/" +
+                                        item.user.profileImage
+                                      }
+                                      width={10}
+                                      height={10}
+                                      alt="writer"
+                                      priority
+                                    />
+                                  </div>
                                 </div>
+                                <Icon.Trash3
+                                  className="text-[1.1em] text-error"
+                                  onClick={(e) => handleComfirm(item)}
+                                />
                               </div>
-                            </td>
-                            <td className="w-8 p-0 text-center">
-                              <button
-                                onClick={(e) => handleComfirm("remove", item)}
-                                className="btn btn-circle btn-xs"
-                              >
-                                <Icon.Trash3 />
-                              </button>
                             </td>
                           </tr>
                         ))
@@ -371,40 +341,6 @@ const viewNotePage = () => {
               <button
                 onClick={handleSaveForm}
                 className="btn btn-block btn-info text-white"
-              >
-                บันทึก
-              </button>
-            </form>
-          </div>
-        </div>
-        <form method="dialog" className="modal-backdrop">
-          <button>close</button>
-        </form>
-      </dialog>
-
-      {/* //Modal Enter Title Note */}
-      <dialog
-        id="modalEditTitleNote"
-        className="modal modal-top sm:modal-middle"
-      >
-        <div className="modal-box">
-          <h3 className="font-bold text-lg">ป้อนหัวข้อสำหรับ Note นี้</h3>
-          <p className="py-4">
-            <input
-              value={inote.title}
-              onChange={(e) => setInote({ ...inote, title: e.target.value })}
-              type="text"
-              className="input w-full focus:outline-0"
-              placeholder="Enter Note Title"
-            />
-          </p>
-          <div className="w-full mt-4">
-            <form method="dialog">
-              <button
-                onClick={() => handleComfirm("editTitleNote", "")}
-                className={`btn btn-block ${
-                  inote.title !== "" ? null : "btn-disabled"
-                } btn-success text-white`}
               >
                 บันทึก
               </button>

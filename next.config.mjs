@@ -31,6 +31,11 @@ const nextConfig = {
         pathname: "/**", // Allows any path under /users/
       },
       {
+        protocol: "https",
+        hostname: "qnote-demo.vercel.app",
+        pathname: "/**", // Allows any path under /users/
+      },
+      {
         protocol: "http",
         hostname: "192.168.2.51",
         port: "5000", // Optional: specify if a non-standard port is used

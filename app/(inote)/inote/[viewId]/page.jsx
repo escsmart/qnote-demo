@@ -151,7 +151,7 @@ const viewNotePage = () => {
 
   const handleSaveForm = async () => {
     await axios
-      .post(config.apiServer + "/inote/add-list", formData)
+      .post(config.apiServer + "/inote/add-list", formData, config.headerAuth())
       .then((res) => {
         if (res.data.message === "success") {
           setFormData({ ...formData, text: "" });
