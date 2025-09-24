@@ -8,14 +8,12 @@ import PageLoading from "@/components/PageLoading";
 import * as Icon from "react-bootstrap-icons";
 import Image from "next/image";
 import RenewToken from "@/components/RenewToken";
+import Swal from "sweetalert2";
 
 const profilePage = () => {
   const [pageOnLoad, setPageOnLoad] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
-  const [img, setImg] = useState("");
   const [myFile, setMyFile] = useState();
-
   const [userData, setUserData] = useState({
     name: "",
     phone: "",
@@ -23,9 +21,29 @@ const profilePage = () => {
     profileImage: "",
   });
 
+  const changePicture = async (picProfile) => {
+    var formData = new FormData();
+    formData.append("id", config.uData("uId"));
+    formData.append("image", picProfile);
+    await axios
+      .post(config.apiServer + "/update-pictureProfile", formData)
+      .then((res) => {
+        if (res.data.message === "success") {
+          localStorage.setItem("uPic", res.data.profileImage);
+        }
+      });
+  };
+
   const handleSelectedFile = (e) => {
     if (e.target.files.length > 0) {
-      setMyFile(e.target.files[0]);
+      Swal.fire({
+        text: "ยืนยันอัพเดทรูปโปรไฟล์ ?",
+        icon: "question",
+        showCancelButton: true,
+        showConfirmButton: true,
+      }).then((res) => {
+        res.isConfirmed ? changePicture(e.target.files[0]) : null;
+      });
     }
   };
 
@@ -55,16 +73,13 @@ const profilePage = () => {
     formData.append("name", userData.name);
     formData.append("phone", userData.phone);
     formData.append("email", userData.email);
-    formData.append("image", myFile);
 
     await axios
       .post(config.apiServer + "/update-udata", formData)
       .then((res) => {
         if (res.data.message === "success") {
           fetchData();
-          // Update Storage ด้วย
           localStorage.setItem("uName", res.data.result.name);
-          localStorage.setItem("uPic", res.data.result.profileImage);
         }
       });
   };
@@ -123,24 +138,41 @@ const profilePage = () => {
                       />
                     </div>
                   </div>
-                  <div className="join">
-                    <button
-                      onClick={() => {
-                        document.getElementById("modalEditData").showModal();
-                      }}
-                      className="btn btn-sm btn-info join-item px-2"
-                    >
-                      <Icon.PencilFill className="text-[1.25em]" /> ข้อมูล
-                    </button>
-                    <button
-                      onClick={() => {
-                        document.getElementById("modalChangePwd").showModal();
-                      }}
-                      className="btn btn-sm btn-info join-item px-2"
-                    >
-                      <Icon.KeyFill className="rotate-135 text-xl" /> รหัส
-                    </button>
-                  </div>
+
+                  <details className="dropdown dropdown-end">
+                    <summary className="btn btn-sm btn-info px-2">
+                      {" "}
+                      <Icon.PencilFill className="text-[1em]" /> แก้ไขข้อมูล
+                    </summary>
+                    <ul className="menu dropdown-content bg-base-100 rounded-box z-1 w-52 p-2 mt-2 shadow-sm gap-2">
+                      <li>
+                        <div
+                          onClick={() => {
+                            document
+                              .getElementById("modalEditData")
+                              .showModal();
+                          }}
+                          className="bg-white"
+                        >
+                          <Icon.PersonCircle />
+                          แก้ไขข้อมูลส่วนตัว
+                        </div>
+                      </li>
+                      <li>
+                        <div
+                          onClick={() => {
+                            document
+                              .getElementById("modalChangePwd")
+                              .showModal();
+                          }}
+                          className="bg-white"
+                        >
+                          <Icon.KeyFill className="rotate-135" />
+                          แก้ไขรหัสผ่าน
+                        </div>
+                      </li>
+                    </ul>
+                  </details>
                 </div>
 
                 {/* // form */}
