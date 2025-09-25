@@ -30,10 +30,6 @@ export const viewport = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" data-theme="cupcake">
-      <meta
-        name="apple-mobile-web-app-status-bar-style"
-        content="black-translucent"
-      />
       <meta name="apple-mobile-web-app-capable" content="yes" />
       <body className={`${prompt.className} antialiased`}>{children}</body>
     </html>
