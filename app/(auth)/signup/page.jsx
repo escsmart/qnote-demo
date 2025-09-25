@@ -106,7 +106,7 @@ const signUpPage = () => {
     <>
       <Template title={"Back to Pages"}>
         <div className="min-h-screen w-full bg-base-200">
-          <section className="min-h-screen flex flex-col gap-6 w-full px-4 pt-18 pb-28">
+          <section className="min-h-screen flex flex-col gap-6 w-full px-4 pt-28 pb-28">
             {/* step 1 send OTP */}
             <div
               id="step1"

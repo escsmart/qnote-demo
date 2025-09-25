@@ -38,7 +38,7 @@ const signInPage = () => {
     <>
       <Template title={"Back to Pages"}>
         <div className="min-h-screen w-full bg-base-200">
-          <section className="min-h-screen flex flex-col gap-6 w-full px-4 pt-18 pb-28">
+          <section className="min-h-screen flex flex-col gap-6 w-full px-4 pt-28 pb-28">
             <div className="flex flex-col items-center justify-center bg-white rounded-3xl mt-2 p-5">
               <h1 className="text-4xl font-semibold">Sign In</h1>
               <p className="text-sm text-slate-500">Enter your Credentials</p>

@@ -10,7 +10,7 @@ export default function Home() {
       <Template title="Quick Note">
         <div className="min-h-screen w-full bg-base-200">
           <section className="min-h-screen flex flex-col gap-6 w-full p-0 pb-28">
-            <div className="card h-44 image-full w-full rounded-none">
+            <div className="card h-48 image-full w-full rounded-none">
               <figure>
                 <Image
                   src={"/bg/bigBG-1024x585.jpg"}

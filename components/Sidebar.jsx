@@ -73,7 +73,7 @@ const Sidebar = ({ secure }) => {
           className="drawer-overlay"
         ></label>
         <div className="menu text-base-content min-h-full w-9/12 p-0">
-          <div className="bg-neutral-300 h-[100vh] rounded-r-3xl p-3 overflow-hidden">
+          <div className="bg-neutral-300 h-[100vh] rounded-r-3xl p-3 pt-10 overflow-hidden">
             <div className="card max-h-[97vh] overflow-y-scroll scrollHide">
               {/* // card figure */}
               <div className="card image-full w-full shadow-sm rounded-3xl">

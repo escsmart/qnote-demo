@@ -55,7 +55,7 @@ const sharedToMePage = () => {
             ></span>
           </div>
           {pageOnLoad ? (
-            <section className="min-h-screen px-4 pt-10 pb-18 mb-10">
+            <section className="min-h-screen px-4 py-18 mb-10">
               <div className="overflow-x-auto rounded-box border border-base-content/5 bg-white mt-2">
                 <table className="table">
                   <thead>

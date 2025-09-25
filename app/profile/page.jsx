@@ -114,7 +114,7 @@ const profilePage = () => {
           </div>
 
           {pageOnLoad ? (
-            <section className="min-h-screen px-4 pt-10 pb-18 mb-10">
+            <section className="min-h-screen px-4 py-18 mb-10">
               <div className="flex flex-col items-center bg-white mt-2 p-4 py-6 rounded-3xl">
                 <div className="w-full flex items-start justify-between">
                   <div className="avatar indicator">

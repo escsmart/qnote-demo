@@ -258,7 +258,7 @@ const viewNotePage = () => {
             ></span>
           </div>
           {pageOnLoad ? (
-            <section className="min-h-screen px-4 pt-10 pb-18 mb-10">
+            <section className="min-h-screen px-4 py-18 mb-10">
               <div className="flex items-center justify-between">
                 <div className="join">
                   <div className="dropdown dropdown-start join-item">
