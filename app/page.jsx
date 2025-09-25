@@ -9,8 +9,8 @@ export default function Home() {
     <>
       <Template title="Quick Note">
         <div className="min-h-screen w-full bg-base-200">
-          <section className="min-h-screen flex flex-col gap-6 w-full px-4 pt-18 pb-28">
-            <div className="card h-36 image-full w-full shadow-sm rounded-3xl mt-2">
+          <section className="min-h-screen flex flex-col gap-6 w-full p-0 pb-28">
+            <div className="card h-44 image-full w-full rounded-none">
               <figure>
                 <Image
                   src={"/bg/bigBG-1024x585.jpg"}
@@ -22,9 +22,7 @@ export default function Home() {
               </figure>
               <div className="card-body flex flex-col justify-between p-4">
                 <div className="inline-flex justify-end">
-                  <label htmlFor="my-drawer">
-                    <Icon.ArrowsExpandVertical className="text-3xl" />
-                  </label>
+                  {/* <Icon.BellFill className="text-xl" /> */}
                 </div>
                 <div>
                   <h2 className="card-title">QUICK NOTE</h2>

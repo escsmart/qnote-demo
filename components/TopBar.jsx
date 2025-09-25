@@ -24,36 +24,34 @@ const TopBar = ({ title }) => {
   }, []);
 
   return (
-    <div className={`fixed w-full z-10 transition-all duration-200 pt-10 px-2`}>
+    <div className={`fixed w-full z-10 transition-all duration-200`}>
       <div
-        className={`card w-full inline-flex shadow-md transition duration-200 ${
-          isVisible ? "titleBarOntop" : "titleBarOnScroll"
+        className={`w-full inline-flex transition duration-200 px-4 ${
+          isVisible ? "pt-10 titleBarOntop" : "pt-10 shadow-md titleBarOnScroll"
         }`}
       >
-        <div className="flex items-center justify-between gap-4 p-3 px-4 w-full">
-          {path == "/" ? (
-            <label htmlFor="my-drawer" className="drawer-button">
-              <Icon.List />
-            </label>
-          ) : (
+        {path == "/" ? (
+          <>OK</>
+        ) : (
+          <div className="flex items-center justify-between gap-4 p-3 px-4 w-full bg5">
             <Icon.ChevronLeft onClick={() => navigate.back()} />
-          )}
-          <div className="flex-1">{title}</div>
-          {path == "/shop" ? (
-            <label htmlFor="my-drawer" className="drawer-button">
-              <Icon.Cart3 />
-            </label>
-          ) : null}
-          <div className="indicator">
-            <span className="indicator-item badge badge-sm border-[1px] border-gray-500 px-1.5 badge-error text-white">
-              4
-            </span>
-            <Icon.BellFill
-              onClick={() => window.location.reload()}
-              className="text-xl"
-            />
+            <div className="flex-1">{title}</div>
+            {path == "/shop" ? (
+              <label htmlFor="my-drawer" className="drawer-button">
+                <Icon.Cart3 />
+              </label>
+            ) : null}
+            <div className="indicator">
+              <span className="indicator-item badge badge-sm border-[1px] border-gray-500 px-1.5 badge-error text-white">
+                4
+              </span>
+              <Icon.BellFill
+                onClick={() => window.location.reload()}
+                className="text-xl"
+              />
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

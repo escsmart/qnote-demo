@@ -17,7 +17,7 @@ const ilinkPage = () => {
       <Template title={"URL Shorted"}>
         <div className="min-h-screen w-full">
           {pageOnLoad ? (
-            <section className="min-h-screen px-4 py-18 mb-10">
+            <section className="min-h-screen px-4 pt-24 mb-10">
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque ex
               quae, quaerat laudantium assumenda voluptatem doloremque esse
               similique! Quas doloribus, hic molestiae, voluptate dicta
