@@ -8,18 +8,16 @@ import Sidebar from "./Sidebar";
 const MenuBottom = ({ secure }) => {
   const path = usePathname();
   const [pathname, setPathname] = useState("");
-  //   if (pathname == "/mylist") {
-  //     const element = document.querySelector("#mylist");
-  //     element.classList.add("dock-active");
-  //   }
-
   useEffect(() => {
     if (path) setPathname(path);
   }, []);
 
   return (
     <>
-      <div className="dock dock-lg border-t-0 pb-6 pt-3 h-22 bg-white">
+      <div
+        className="dock dock-lg border-t-0 pb-6 pt-3 h-22 bg-white"
+        style={{ boxShadow: "0px -2px 3px gray inset" }}
+      >
         <Link href={"/inote"}>
           <div
             className={`menuNormal ${

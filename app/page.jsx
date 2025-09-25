@@ -9,8 +9,8 @@ export default function Home() {
     <>
       <Template title="Quick Note">
         <div className="min-h-screen w-full bg-base-200">
-          <section className="min-h-screen flex flex-col gap-6 w-full p-0 pb-28">
-            <div className="card h-48 image-full w-full rounded-none">
+          <section className="w-full pb-28">
+            <div className="card h-52 image-full w-full rounded-none">
               <figure>
                 <Image
                   src={"/bg/bigBG-1024x585.jpg"}
@@ -21,8 +21,13 @@ export default function Home() {
                 />
               </figure>
               <div className="card-body flex flex-col justify-between p-4">
-                <div className="inline-flex justify-end">
-                  {/* <Icon.BellFill className="text-xl" /> */}
+                <div className="inline-flex justify-end mt-10 px-4">
+                  <div className="indicator">
+                    <span className="indicator-item badge badge-sm border-[1px] border-gray-500 px-1.5 badge-error text-white">
+                      4
+                    </span>
+                    <Icon.BellFill className="text-xl" />
+                  </div>
                 </div>
                 <div>
                   <h2 className="card-title">QUICK NOTE</h2>
@@ -33,94 +38,98 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="card bg-white inset-ring-accent rounded-3xl flex flex-col items-center justify-around gap-6 p-4">
-              <div className="text-center">
-                <div className="text-sm text-green-600">THE FUTURE IS NOW</div>
-                <h1 className="text-2xl font-bold">Powerful Features</h1>
-                <p className="text-gray-400">
-                  Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                  Error, eius!
-                </p>
-              </div>
-              <div className="w-full grid grid-cols-6 h-52 rounded-2xl overflow-hidden text-white">
-                <Link
-                  href="/inote-create"
-                  className="col-span-3 flex flex-col items-center justify-center h-full cursor-pointer text-white"
-                  style={{
-                    backgroundImage:
-                      "linear-gradient(to right, #00000080, #0000ff80), url('./bg/inote-bg.jpg')",
-                    backgroundRepeat: "no-repeat",
-                    backgroundPosition: "bottom center",
-                    backgroundSize: "cover",
-                  }}
-                >
-                  <i className="bi bi-arrow-up-right"></i>
-                  <p>iNote</p>
-                </Link>
-                <div
-                  className="col-span-3 flex flex-col items-center justify-center h-full cursor-pointer"
-                  style={{
-                    backgroundImage:
-                      "linear-gradient(to right, #FF000080, #0000ff80), url('./bg/qnote-bg.jpg')",
-                    backgroundRepeat: "no-repeat",
-                    backgroundPosition: "bottom center",
-                    backgroundSize: "cover",
-                  }}
-                >
-                  <i className="bi bi-qr-code"></i>
-                  <p>iVideo</p>
+            <div className="flex flex-col items-center gap-6 px-4 py-6">
+              <div className="card bg-white inset-ring-accent rounded-3xl flex flex-col items-center justify-around gap-6 p-4">
+                <div className="text-center">
+                  <div className="text-sm text-green-600">
+                    THE FUTURE IS NOW
+                  </div>
+                  <h1 className="text-2xl font-bold">Powerful Features</h1>
+                  <p className="text-gray-400">
+                    Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                    Error, eius!
+                  </p>
                 </div>
-                <Link
-                  href={"/ilink"}
-                  className="col-span-3 flex flex-col items-center justify-center h-full cursor-pointer text-white"
-                  style={{
-                    backgroundImage:
-                      "linear-gradient(to right, #FF000080, #0000ff80), url(https://media.gettyimages.com/id/1433485090/video/dots-makes-global-world-map-global-wireframe-polygonal-lines.jpg?s=640x640&k=20&c=6TpfX8QHt9IPnF0s5HkwOaNoqcNbtYP99Ceh7-iR8MI=)",
-                    backgroundRepeat: "no-repeat",
-                    backgroundPosition: "bottom center",
-                    backgroundSize: "cover",
-                  }}
-                >
-                  <i className="bi bi-arrow-up-right"></i>
-                  <p>iLink</p>
-                </Link>
-                <div
-                  className="col-span-3 flex flex-col items-center justify-center h-full cursor-pointer text-white"
-                  style={{
-                    backgroundImage:
-                      "linear-gradient(to right, #00000080, #0000ff80), url('./bg/invester-bg.jpg')",
-                    backgroundRepeat: "no-repeat",
-                    backgroundPosition: "bottom center",
-                    backgroundSize: "cover",
-                  }}
-                >
-                  <i className="bi bi-plus-lg"></i>
-                  <p>Invester</p>
+                <div className="w-full grid grid-cols-6 h-52 rounded-2xl overflow-hidden text-white">
+                  <Link
+                    href="/inote-create"
+                    className="col-span-3 flex flex-col items-center justify-center h-full cursor-pointer text-white"
+                    style={{
+                      backgroundImage:
+                        "linear-gradient(to right, #00000080, #0000ff80), url('./bg/inote-bg.jpg')",
+                      backgroundRepeat: "no-repeat",
+                      backgroundPosition: "bottom center",
+                      backgroundSize: "cover",
+                    }}
+                  >
+                    <i className="bi bi-arrow-up-right"></i>
+                    <p>iNote</p>
+                  </Link>
+                  <div
+                    className="col-span-3 flex flex-col items-center justify-center h-full cursor-pointer"
+                    style={{
+                      backgroundImage:
+                        "linear-gradient(to right, #FF000080, #0000ff80), url('./bg/qnote-bg.jpg')",
+                      backgroundRepeat: "no-repeat",
+                      backgroundPosition: "bottom center",
+                      backgroundSize: "cover",
+                    }}
+                  >
+                    <i className="bi bi-qr-code"></i>
+                    <p>iVideo</p>
+                  </div>
+                  <Link
+                    href={"/ilink"}
+                    className="col-span-3 flex flex-col items-center justify-center h-full cursor-pointer text-white"
+                    style={{
+                      backgroundImage:
+                        "linear-gradient(to right, #FF000080, #0000ff80), url(https://media.gettyimages.com/id/1433485090/video/dots-makes-global-world-map-global-wireframe-polygonal-lines.jpg?s=640x640&k=20&c=6TpfX8QHt9IPnF0s5HkwOaNoqcNbtYP99Ceh7-iR8MI=)",
+                      backgroundRepeat: "no-repeat",
+                      backgroundPosition: "bottom center",
+                      backgroundSize: "cover",
+                    }}
+                  >
+                    <i className="bi bi-arrow-up-right"></i>
+                    <p>iLink</p>
+                  </Link>
+                  <div
+                    className="col-span-3 flex flex-col items-center justify-center h-full cursor-pointer text-white"
+                    style={{
+                      backgroundImage:
+                        "linear-gradient(to right, #00000080, #0000ff80), url('./bg/invester-bg.jpg')",
+                      backgroundRepeat: "no-repeat",
+                      backgroundPosition: "bottom center",
+                      backgroundSize: "cover",
+                    }}
+                  >
+                    <i className="bi bi-plus-lg"></i>
+                    <p>Invester</p>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div className="card bg-white inset-ring-accent rounded-3xl flex flex-col items-center justify-around gap-6 p-4">
-              <div className="grid grid-cols-12 gap-4 w-full text-center">
-                <div className="col-span-6 flex flex-col items-center justify-center gap-1 p-3">
-                  <Icon.LightningCharge className="text-4xl text-warning" />
-                  <h2 className="font-semibold mt-2">Lightning Fast</h2>
-                  <p className="text-gray-400">Lorem ipsum dolor sit amet.</p>
-                </div>
-                <div className="col-span-6 flex flex-col items-center justify-center gap-1 p-3">
-                  <Icon.Award className="text-4xl text-red-400" />
-                  <h2 className="font-semibold mt-2">Best Support</h2>
-                  <p className="text-gray-400">Lorem ipsum dolor sit amet.</p>
-                </div>
-                <div className="col-span-6 flex flex-col items-center justify-center gap-1 p-3">
-                  <Icon.Phone className="text-4xl text-neutral-500" />
-                  <h2 className="font-semibold mt-2">PWA Ready</h2>
-                  <p className="text-gray-400">Lorem ipsum dolor sit amet.</p>
-                </div>
-                <div className="col-span-6 flex flex-col items-center justify-center gap-1 p-3">
-                  <Icon.CodeSlash className="text-4xl text-success" />
-                  <h2 className="font-semibold mt-2">Tailwind CSS</h2>
-                  <p className="text-gray-400">Lorem ipsum dolor sit amet.</p>
+              <div className="card bg-white inset-ring-accent rounded-3xl flex flex-col items-center justify-around gap-6 p-4">
+                <div className="grid grid-cols-12 gap-4 w-full text-center">
+                  <div className="col-span-6 flex flex-col items-center justify-center gap-1 p-3">
+                    <Icon.LightningCharge className="text-4xl text-warning" />
+                    <h2 className="font-semibold mt-2">Lightning Fast</h2>
+                    <p className="text-gray-400">Lorem ipsum dolor sit amet.</p>
+                  </div>
+                  <div className="col-span-6 flex flex-col items-center justify-center gap-1 p-3">
+                    <Icon.Award className="text-4xl text-red-400" />
+                    <h2 className="font-semibold mt-2">Best Support</h2>
+                    <p className="text-gray-400">Lorem ipsum dolor sit amet.</p>
+                  </div>
+                  <div className="col-span-6 flex flex-col items-center justify-center gap-1 p-3">
+                    <Icon.Phone className="text-4xl text-neutral-500" />
+                    <h2 className="font-semibold mt-2">PWA Ready</h2>
+                    <p className="text-gray-400">Lorem ipsum dolor sit amet.</p>
+                  </div>
+                  <div className="col-span-6 flex flex-col items-center justify-center gap-1 p-3">
+                    <Icon.CodeSlash className="text-4xl text-success" />
+                    <h2 className="font-semibold mt-2">Tailwind CSS</h2>
+                    <p className="text-gray-400">Lorem ipsum dolor sit amet.</p>
+                  </div>
                 </div>
               </div>
             </div>
