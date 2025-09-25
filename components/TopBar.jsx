@@ -24,11 +24,7 @@ const TopBar = ({ title }) => {
   }, []);
 
   return (
-    <div
-      className={`fixed w-full z-10 transition-all duration-200 ${
-        isVisible ? "p-2 pt-3" : "p-0"
-      }`}
-    >
+    <div className={`fixed w-full z-10 transition-all duration-200 pt-10 px-2`}>
       <div
         className={`card w-full inline-flex shadow-md transition duration-200 ${
           isVisible ? "titleBarOntop" : "titleBarOnScroll"
