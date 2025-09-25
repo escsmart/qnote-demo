@@ -24,6 +24,7 @@ export const viewport = {
   width: "device-width",
   initialScale: 1,
   userScalable: false,
+  viewportFit: "cover",
 };
 
 // set layout และ export เพื่อใช้งาน
