@@ -1,5 +1,6 @@
 import MenuBottom from "@/components/MenuBottom";
 import Template from "@/components/Template";
+import Image from "next/image";
 import Link from "next/link";
 import * as Icon from "react-bootstrap-icons";
 
@@ -9,21 +10,28 @@ export default function Home() {
       <Template title="Quick Note">
         <div className="min-h-screen w-full bg-base-200">
           <section className="min-h-screen flex flex-col gap-6 w-full px-4 pt-18 pb-28">
-            <div
-              className="card h-36 rounded-3xl mt-2"
-              style={{
-                backgroundImage:
-                  "linear-gradient(to right, #00000080, #0000ff80), url(https://www.psychologicalscience.org/redesign/wp-content/uploads/2013/03/PAFF_051217_mindfulnesstestscores-1024x585.jpg)",
-                backgroundRepeat: "no-repeat",
-                backgroundPosition: "bottom center",
-                backgroundSize: "cover",
-              }}
-            >
-              <div className="card-body text-xl text-white">
-                <h1 className="font-bold">Quick Note</h1>
-                <p className="font-extralight text-sm">
-                  ทำให้การบันทึกความจำ..เป็นเรื่องง่าย
-                </p>
+            <div className="card h-36 image-full w-full shadow-sm rounded-3xl mt-2">
+              <figure>
+                <Image
+                  src={"/bg/bigBG-1024x585.jpg"}
+                  width={500}
+                  height={300}
+                  alt={"bigBG"}
+                  priority
+                />
+              </figure>
+              <div className="card-body flex flex-col justify-between p-4">
+                <div className="inline-flex justify-end">
+                  <label htmlFor="my-drawer">
+                    <Icon.ArrowsExpandVertical className="text-3xl" />
+                  </label>
+                </div>
+                <div>
+                  <h2 className="card-title">QUICK NOTE</h2>
+                  <p className="font-medium opacity-75">
+                    ทำให้การบันทึกความจำ..เป็นเรื่องง่าย
+                  </p>
+                </div>
               </div>
             </div>
 
