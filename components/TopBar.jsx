@@ -26,16 +26,26 @@ const TopBar = ({ title }) => {
   return (
     <div className={`fixed w-full z-10 transition-all duration-200`}>
       <div
-        className={`w-full inline-flex transition duration-200 px-4 ${
-          isVisible ? "pt-10 titleBarOntop" : "pt-10 shadow-md titleBarOnScroll"
+        className={`w-full inline-flex transition duration-200 px-3 pt-11 ${
+          isVisible ? "titleBarOntop" : "shadow-md titleBarOnScroll"
         }`}
       >
         {path == "/" ? (
           <>OK</>
         ) : (
-          <div className="flex items-center justify-between gap-4 p-3 px-4 w-full bg5">
+          <div
+            className={`flex items-center justify-between gap-4 p-3 w-full transition-all duration-200 ${
+              isVisible ? "px-4 bg5" : "px-3"
+            }`}
+          >
             <Icon.ChevronLeft onClick={() => navigate.back()} />
-            <div className="flex-1">{title}</div>
+            <div
+              className={`transition-all duration-200 ${
+                isVisible ? "flex-1" : ""
+              }`}
+            >
+              {title}
+            </div>
             {path == "/shop" ? (
               <label htmlFor="my-drawer" className="drawer-button">
                 <Icon.Cart3 />
