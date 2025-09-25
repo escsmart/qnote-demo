@@ -218,8 +218,8 @@ const createNotePage = () => {
     <>
       <Template title={"เขียนบันทึก"}>
         <div className="min-h-screen w-full bg-white">
-          <section className="min-h-screen px-4 py-18">
-            <div className="flex items-center justify-between mt-2">
+          <section className="min-h-screen px-4 pt-28 pb-18 mb-10">
+            <div className="flex items-center justify-between">
               <div className="join">
                 <button
                   onClick={() => router.push("/inote")}
