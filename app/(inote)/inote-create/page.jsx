@@ -3,12 +3,10 @@ import config from "@/app/config";
 import Template from "@/components/Template";
 import axios from "axios";
 import Link from "next/link";
-import moment from "moment";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import * as Icon from "react-bootstrap-icons";
 import Swal from "sweetalert2";
-import PageLoading from "@/components/PageLoading";
 
 const createNotePage = () => {
   const router = useRouter();
@@ -165,7 +163,6 @@ const createNotePage = () => {
   };
 
   const changeHandler = (event) => {
-    let { value } = event.target;
     if (event.key == "Enter") {
       document.getElementById("linkBt").click();
       handleTodoSubmit();
@@ -306,7 +303,7 @@ const createNotePage = () => {
               </div>
             </div>
           </section>
-          <footer className="fixed bottom-0 w-full bg-white flex items-center justify-between gap-2 px-4 pt-2 pb-8">
+          <footer className="fixed bottom-0 w-full bg-white flex items-center justify-between gap-2 px-4 pt-2 pb-7 focus-within:pb-2">
             <label className="input border-0 focus-within:outline-0 bg-base-200 flex-1 h-[5vh] overflow-hidden rounded-full">
               <input
                 value={todo}
