@@ -25,13 +25,17 @@ export const viewport = {
   initialScale: 1,
   userScalable: false,
   viewportFit: "cover",
+  appleWebApp: {
+    capable: true, // This corresponds to apple-mobile-web-app-capable
+    title: "Your App Title", // Optional: apple-mobile-web-app-title
+    statusBarStyle: "black-translucent", // Optional: apple-mobile-web-app-status-bar-style
+  },
 };
 
 // set layout และ export เพื่อใช้งาน
 export default function RootLayout({ children }) {
   return (
     <html lang="en" data-theme="cupcake">
-      <meta name="apple-mobile-web-app-capable" content="yes" />
       <body className={`${prompt.className} antialiased`}>{children}</body>
     </html>
   );
