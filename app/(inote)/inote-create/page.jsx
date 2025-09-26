@@ -218,7 +218,7 @@ const createNotePage = () => {
     <>
       <Template title={"เขียนบันทึก"}>
         <div className="min-h-screen w-full bg-white">
-          <section className="min-h-screen px-4 pt-28 pb-18 mb-10">
+          <section className="min-h-screen px-4 pt-28 pb-18">
             <div className="flex items-center justify-between">
               <div className="join">
                 <button
@@ -257,7 +257,7 @@ const createNotePage = () => {
                 สร้าง <Icon.PlusLg className="text-xl" />
               </button>
             </div>
-            <div className={`h-[72vh] flex flex-col justify-start mt-4`}>
+            <div className={`h-[72vh] flex flex-col justify-end mt-4`}>
               <div className={`card overflow-hidden rounded-none`}>
                 <div className="overflow-y-auto">
                   <table className="table bg-white rounded-none">
