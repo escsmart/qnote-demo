@@ -9,7 +9,7 @@ const TopBar = ({ title }) => {
   const [isVisible, setIsVisible] = useState(true);
 
   const onScroll = useCallback((event) => {
-    if (window.scrollY > 50) {
+    if (window.scrollY > 70) {
       setIsVisible(false);
     } else {
       setIsVisible(true);

@@ -76,8 +76,10 @@ const createNotePage = () => {
       ]);
     } else {
       alert("กรุณาป้อนข้อความ");
+      document.getElementById("noteText").focus();
     }
     setTodo("");
+    document.getElementById("noteText").focus();
   };
 
   // Note ** Select
@@ -305,24 +307,24 @@ const createNotePage = () => {
             </div>
           </section>
           <footer className="fixed bottom-0 w-full bg-white flex items-center justify-between gap-2 px-4 pt-2 pb-8">
-            <div className="bg-base-200 flex-1 h-[5vh] overflow-hidden rounded-full">
+            <label className="input border-0 focus-within:outline-0 bg-base-200 flex-1 h-[5vh] overflow-hidden rounded-full">
               <input
                 value={todo}
                 onChange={(e) => setTodo(e.target.value)}
                 type="text"
                 name="todo"
                 id="noteText"
-                className="input flex-1 border-0 focus:outline-0 w-full rounded-none scrollHide"
+                className="input border-0 focus:outline-0 rounded-none scrollHide"
                 placeholder="พิมพ์ข้อความ"
                 onKeyDown={changeHandler}
               />
-            </div>
-            <Link href={"#bt"} id="linkBt">
-              <Icon.SendFill
-                onClick={handleTodoSubmit}
-                className="rotate-45 text-2xl text-blue-600"
-              />
-            </Link>
+              <Link href={"#bt"} id="linkBt">
+                <Icon.SendFill
+                  onClick={handleTodoSubmit}
+                  className="rotate-45 text-2xl text-blue-600"
+                />
+              </Link>
+            </label>
           </footer>
         </div>
       </Template>
